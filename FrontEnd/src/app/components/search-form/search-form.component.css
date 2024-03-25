@@ -1,0 +1,9 @@
+.side-by-side-form{
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.side-by-side-form mat-form-field
+{
+    margin-right:20px;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>GPT Response</h2>
+
+    <div *ngIf="GPTresponse$ | async as Response; else noReponse">
+
+        <div *ngIf="Response.Activities.length>0">
+            <div>
+            Country:<span>{{Response.Country}}</span>
+            Region:<span>{{Response.Region}}</span>
+            Duration:<span>{{Response.Duration}}</span>
+            Start Date:<span>{{Response.Start_Date}}</span>
+            End Date:<span>{{Response.End_Date}}</span>
+            Activities:<span *ngFor = "let a of Response.Activities">
+                <div>Day:{{a.Day}}</div>
+                <div>Date:{{a.Date}}</div>
+                <div>Location:{{a.Location}}</div>
+                <div>Highlights:     <div *ngFor="let h of a.Highlights">
+                    {{h}}
+                    </div></div>
+           
+
+
+            </span>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #noReponse>
+        No data
+    </ng-template>
+
+</body>
+</html>

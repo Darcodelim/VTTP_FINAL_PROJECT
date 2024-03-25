@@ -1,0 +1,43 @@
+1) Changes in iso region for MA, from provinces/prefecture to subdivisions. As MA has both of them, there is a need to make it uniform with "Region Code with Country Code" folder
+https://en.wikipedia.org/wiki/ISO_3166-2:MA
+In sequence:
+MA-AGD
+MA-TNT
+MA-FIG
+MA-FES
+MA-ERR
+MA-MEK
+MA-OUJ
+MA-RBA
+MA-CAS
+MA-NAD
+MA-MAR
+MA-KEN
+MA-OUA
+MA-HOC
+MA-TET
+MA-TNG
+
+2) Removed most of the airbases and Heliports
+
+3)India currently not in operation airports:
+Kailashahar Airport	AS	IN	IN-TR
+
+4)Removed due to Without IATA code, however is an airport that is in service 
+Mărculești International Airport	312	EU	MD	MD-FR	Mărculești	LUBM
+Cahul International Airport	652	EU	MD	MD-BL	Cahul	LUCH
+
+
+5) For ME, there are only 2 airports which does not cover the whole of ME (Montenegro)
+
+6) Made up iso region for NC, PF,PM,PR,TC
+
+7)Removed due to inoperation:
+NZOU	medium_airport	Oamaru Airport	99	OC	NZ	NZ-OTA		NZOU	OAM		171.08200073242188, -44.970001220703125
+
+8) Has 2 Muncipal
+ESNK	medium_airport	Höga Kusten Airport	34	EU	SE	SE-Y	Kramfors/SollefteÃƒÂ¥	ESNK	KRF		17.76889991760254, 63.04859924316406
+
+9) Has 3 Municpal, Chose the nearest Timra
+ESNN	medium_airport	Sundsvall-HÃƒÂ¤rnÃƒÂ¶sand Airport	16	EU	SE	SE-Y	Sundsvall/ HÃƒÂ¤rnÃƒÂ¶sand	ESNN	SDL		17.443899154663086, 62.528099060058594
+

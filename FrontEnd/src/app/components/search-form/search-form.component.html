@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Search</title>
+</head>
+<body>
+    <div class="container h-100 d-flex justify-content-center align-items-center ">
+        <form [formGroup]="formGroup" class="side-by-side-form">
+            <mat-form-field>
+            <mat-label>
+                Countries
+            </mat-label>
+            <input formControlName="country" matInput type="text" [matAutocomplete]="autoCountry">
+            <mat-autocomplete #autoCountry="matAutocomplete">
+                <mat-option *ngFor="let country of filteredCountry" [value]="country">
+                {{country}}
+                </mat-option>
+            </mat-autocomplete>
+            </mat-form-field>
+
+
+            <mat-form-field>
+                <mat-label>
+                    Region
+                </mat-label>
+                <input formControlName="region" matInput type="text" [matAutocomplete]="autoRegion">
+                <mat-autocomplete #autoRegion="matAutocomplete">
+                    <mat-option *ngFor="let region of selectedRegion" [value]="region">
+                    {{region}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            
+            <mat-form-field>
+                <mat-label>
+                    City/Municipal
+                </mat-label>
+                <input formControlName="country" matInput type="text" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let country of filteredCountry" [value]="country">
+                    {{country}}
+                    </mat-option>
+                </mat-autocomplete>
+                </mat-form-field>
+        </form>
+    </div>
+</body>
+</html>
