@@ -27,6 +27,14 @@ public class CountryController {
     @Autowired
     CountryService countrySvc;
 
+    Integer num = 0;
+
+    public Integer apiCounter()
+    {
+        num += 1;
+        return num;
+    }
+
     @GetMapping("getAll")
     public ResponseEntity<String> getAllCountryInfo()
     {
@@ -37,7 +45,10 @@ public class CountryController {
 
 		countryList.stream().forEach(country-> allCountriesArray.add(utils.toJsonCountries(country)));
 
-        System.out.println("Calling Country API");
+        Integer counter = apiCounter();
+        System.out.printf("Calling Country API:%d\n", counter);
+
+        
 
         return ResponseEntity.ok(allCountriesArray.build().toString());
 

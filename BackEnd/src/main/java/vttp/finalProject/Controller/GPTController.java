@@ -14,15 +14,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
-import vttp.finalProject.Model.GPT.GPTRequest;
-import vttp.finalProject.Model.GPT.GPTResponse;
-import vttp.finalProject.Model.GPT.Message;
+
 import vttp.finalProject.Service.GPTservice;
 
 @RestController
