@@ -16,6 +16,11 @@ import { SearchFormComponent } from './components/search-form/search-form.compon
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MaterialModuleModule } from './material-module/material-module.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { countryEffects } from './components/search-form/state/country.effects';
+import { CountryService } from './Services/country.service';
+import { LoadingSpinnerComponent } from './components/shared/loading-spinner-gptResponse/loading-spinner.component';
+import { LoginComponent } from './components/Authentication/login/login.component';
+import { SignUpComponent } from './components/Authentication/sign-up/sign-up.component';
 
 
 @NgModule({
@@ -23,11 +28,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppComponent,
     GPTComponent,
     SearchFormComponent,
+    LoadingSpinnerComponent,
+    LoginComponent,
+    SignUpComponent,
 
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,HttpClientModule,StoreModule.forRoot(appReducer),EffectsModule.forRoot(GptEffects),
+    AppRoutingModule,HttpClientModule,StoreModule.forRoot(appReducer),EffectsModule.forRoot([GptEffects,countryEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode
@@ -37,7 +45,7 @@ import { ReactiveFormsModule } from '@angular/forms';
       connectInZone: true // If set to true, the connection is established within the Angular zone
     }),MaterialModuleModule,ReactiveFormsModule
   ],
-  providers: [ItineraryService, provideAnimationsAsync()],
+  providers: [ItineraryService, provideAnimationsAsync(),CountryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

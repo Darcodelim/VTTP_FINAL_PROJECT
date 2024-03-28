@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+</head>
+<body>
+    <div class="container h-100 d-flex justify-content-center align-items-center " >
+        <form [formGroup]="signUpForm" (ngSubmit)="onSignUpSubmit()" class="top-bottom-form">
+        <mat-form-field class="" >
+          <mat-label>Enter your email</mat-label>
+          <input matInput
+                 placeholder="pat@example.com"
+                 formControlName="email"
+                 (blur)="updateUserErrorMessage()"
+                 required>
+          @if (signUpForm.get('email')?.hasError) {
+            <mat-error>{{errorMessageUser}}</mat-error>
+          }
+        </mat-form-field>
+    
+      
+        <mat-form-field >
+            <mat-label>Enter your password</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'"  formControlName="password" (blur)="updatePassErrorMessage()" required>
+            @if(signUpForm.get('password')?.hasError){
+                <mat-error>{{errorMessagePass}}</mat-error>
+            }
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <mat-form-field >
+            <mat-label>Confirm Password</mat-label>
+            <input matInput [type]="hideConfirmPassword ? 'password' : 'text'"  formControlName="confirmPassword"  required  pattern="{{signUpForm.value.password}}">
+            
+                <mat-error *ngIf="signUpForm.get('confirmPassword')?.hasError('required') && (signUpForm.get('confirmPassword')?.dirty || signUpForm.get('confirmPassword')?.touched)" >You must enter a value</mat-error>
+    
+                <mat-error *ngIf="signUpForm.value.confirmPassword">Password Mismatch</mat-error>
+            
+
+            <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
+              <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+    
+          
+          <button type="submit"  class="bottom-signup-button" [disabled]="signUpForm.invalid"><mat-icon aria-hidden="false" aria-label="" fontIcon="person_add"></mat-icon>Sign Up</button>
+        
+        </form>
+      </div>
+</body>
+</html>
+
+  

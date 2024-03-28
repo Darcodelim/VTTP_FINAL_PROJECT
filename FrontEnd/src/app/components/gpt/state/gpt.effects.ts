@@ -3,11 +3,14 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { ItineraryService } from "../../../Services/itinerary.service";
 import { ReponseError, gptReponseError, sendPrompt, storeGptResponse } from "./gpt.action";
 import { catchError, map, mergeMap, of } from "rxjs";
+import { Store } from "@ngrx/store";
+import { AppState } from "../../../store/app.state";
+import { setLoadingSpinner } from "../../shared/state/shared.action";
 
 @Injectable()
 export class GptEffects{
 
-    constructor(private actions$:Actions, private itinerarySvc:ItineraryService)
+    constructor(private actions$:Actions, private itinerarySvc:ItineraryService,private store: Store<AppState>)
     {
 
     }
@@ -19,6 +22,7 @@ export class GptEffects{
                     return this.itinerarySvc.getGptResponse(action.prompt).pipe(
                         map((gptResponse)=>{
                             console.log(gptResponse)
+                            this.store.dispatch(setLoadingSpinner({status:false}))
 
                             return storeGptResponse({response:gptResponse})
 

@@ -16,3 +16,14 @@ export interface municipal{
     Iata:string
 
 }
+
+
+export interface formCountry
+{
+    startDate:Date
+    endDate:Date
+    country:String
+    region:String
+    municipal:String
+
+}

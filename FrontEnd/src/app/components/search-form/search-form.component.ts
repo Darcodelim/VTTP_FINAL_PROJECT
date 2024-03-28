@@ -1,51 +1,91 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnChanges, OnDestroy, SimpleChanges, inject } from '@angular/core';
 import { CountryService } from '../../Services/country.service';
-import { Country } from '../../Models/countryModels';
-import { Observable, map } from 'rxjs';
+import { Country, formCountry } from '../../Models/countryModels';
+import { Observable, Subscription, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Store, select } from '@ngrx/store';
+import { AppState } from '../../store/app.state';
+import { getCountryAction, storeCountryFormAction, storeCountryResponse } from './state/country.action';
+import { getCountryResponse } from './state/country.selector';
+import { Router } from '@angular/router';
+import { getLoading } from '../shared/state/shared.selector';
 
 @Component({
   selector: 'app-search-form',
   templateUrl: './search-form.component.html',
   styleUrl: './search-form.component.css'
 })
-export class SearchFormComponent {
+export class SearchFormComponent implements OnDestroy {
 
-    private countrySvc = inject(CountryService)
+  
 
-    countriesOb$!:Observable<Country[]>
+    countriesOb$!:Observable<Country[]|null>
+    countriesSub!:Subscription
+
     
     //Countries Variable
-    countries!:Country[]
-    countryOnly!:String[]
-    filteredCountry!:String[]
+    countries!:Country[]|null
+    countryOnly!:String[]|null
+    filteredCountry!:String[]|undefined
+    country!:String
 
     //Region Variable
    selectedRegion!:String[]
+   filteredRegion!:String[]
+   region!:String
 
-    formGroup!: FormGroup;
+   //City/Municipal Variable
+   selectedCity!:String[]
+   filteredCity!:String[]
+
+   formGroup!: FormGroup;
+
+   //CheckBox
+   includeCityMunicipal:boolean = false;
+
+   //Min Date, prevents user to pick past dates
+   minDate!:Date;
 
     private fb = inject(FormBuilder)
 
-    constructor()
-    { //Countries Observable to be shared
-      this.countriesOb$ = this.countrySvc.getCountryRegiongCities()
+    constructor(private store:Store<AppState>,private router:Router)
+    { //Countries Observable to be shared from store
+      this.loadDataIfDoesntExists();
       
+      // this.getCountry();
       this.getCountry();
       this.initForm();
+
+      //setMinDate
+      this.setMinDate()
+
+
+
     }
+  ngOnDestroy(): void {
+    //must unsubscribe, it would cause multiple emission on other subscription in other components
+    this.countriesSub.unsubscribe();
+  }
+
+  setMinDate()
+  {
+    const currentDate = new Date()
+    this.minDate = currentDate
+  }
+
 
     getCountry()
     {
-      this.countriesOb$.pipe(map(country=>country.map(c=>c['country'])))
+      this.countriesOb$.pipe(map(country=>country?.map(c=>c['country'])))
       .subscribe(country=>
         {
+          if(country){
           //Have to include this option as it is read by the filterData side
           this.countryOnly = country
-
-          //This is included as it would all of the countries in the begining before there is any filtering
+           //This is included as it would all of the countries in the begining before there is any filtering
           this.filteredCountry = country
-          // console.log(this.filteredCountry);
+            // console.log(this.filteredCountry);
+          }
         }
         )
     }
@@ -54,8 +94,8 @@ export class SearchFormComponent {
     {
       return this.countriesOb$.pipe(map(countries =>
         {
-          const selectedCountryData = countries.find(country=>country.country===selectedCountry);
-
+          const selectedCountryData = countries?.find(country=>country.country===selectedCountry);
+          console.log("Calling API")
           if(selectedCountryData)
           {
             return selectedCountryData.regions.map(region=>region.region)
@@ -68,42 +108,164 @@ export class SearchFormComponent {
 
     }
 
+    getCity(selectedCountry:String,selectedRegion:String):Observable<string []>
+    {
+      return this.countriesOb$.pipe(map(countries =>
+        { 
+          console.log("Calling API City")
+          const selectedCountryData = countries?.find(country=>country.country===selectedCountry);
+          if(selectedCountryData)
+          {
+             const selectedRegionData = selectedCountryData.regions.find(region=>region.region===selectedRegion)
+             if(selectedRegionData)
+             {
+                return selectedRegionData?.municipalities.map(municipal=>municipal.municipal)
+             }
+             else
+             {
+                return []
+             }
+             
+          }
+          else{
+            return []
+          }
+        }))
+    }
 
     //FORM Area
     private createCountryForm():FormGroup
     {
       return this.fb.group({
+        startDate:this.fb.control<string>('',[Validators.required]),
+        endDate:this.fb.control<string>('',[Validators.required]),
         country:this.fb.control<string>('',[Validators.required]),
         region:this.fb.control<string>('',[Validators.required]),
-        municipal:this.fb.control<string>('',[Validators.required])
+        municipal:this.fb.control<string>('',[])
       })
 
+    }
+
+    onSubmit()
+    {
+      const countryform:formCountry =  this.formGroup.value
+      // console.log(countryform);
+
+      this.store.dispatch(storeCountryFormAction({countryFormData:countryform}))
+      
+      this.router.navigate(['/itinerary'])
+
+ 
     }
 
     initForm(){
+      
+
       this.formGroup = this.createCountryForm();
-      this.formGroup.get('country')?.valueChanges.subscribe(selectedCountry=>{
+
+
+      this.formGroup.get('country')?.valueChanges.pipe(debounceTime(500),distinctUntilChanged()).subscribe(selectedCountry=>{
         console.log('data is:',selectedCountry)
-        this.filterData(selectedCountry)
+        this.filterCountry(selectedCountry)
         
+        this.country = selectedCountry;
+
+        console.log("Country Selected:",this.country)
+        // Region
         this.getRegion(selectedCountry).subscribe(regions=>{
-          
-          this.selectedRegion = regions
-          console.log(this.selectedRegion)
+        this.selectedRegion = regions
+        this.filteredRegion = regions
+        
+
+        console.log(this.selectedRegion)
         }
-         
           )
+      })
+
+      this.formGroup.get('region')?.valueChanges.pipe(debounceTime(500),distinctUntilChanged()).subscribe(selectedRegion=>{
+          this.filterRegion(selectedRegion)
+          this.region=selectedRegion
+          console.log("Region Selected:",this.region)
+          
+          this.getCity(this.country,this.region).subscribe(cities=>{
+        
+            this.selectedCity = cities
+            this.filteredCity = cities
+        
+      })
+
+      this.formGroup.get('municipal')?.valueChanges.subscribe(selectedCity=>
+        {
+          this.filterCity(selectedCity);
+        })
+      
       })
     }
 
+    toggleCityMunicipal(checked:boolean)
+    {
+      this.includeCityMunicipal = checked;
+      const municipalControl = this.formGroup.get('municipal')
+
+      if(checked)
+      {
+        municipalControl?.setValidators([Validators.required])
+      }
+
+      else
+      {
+        municipalControl?.setValue('');
+        municipalControl?.clearValidators()
+      }
+
+      municipalControl?.updateValueAndValidity();
+
+
+    }
+
+
 
     //Data Filtering Area
-    filterData(data:string)
+    filterRegion(region:string)
+    {
+      this.filteredRegion = this.selectedRegion.filter(Region=>{
+        return Region.toLowerCase().indexOf(region.toLowerCase())>-1
+      })
+    }
+
+    
+    filterCountry(Country:string)
     {
       //It filters the response that is added in to produce the country that match the response
-        this.filteredCountry = this.countryOnly.filter(country=>{
-          return country.toLowerCase().indexOf(data.toLowerCase())>-1
+
+      
+        this.filteredCountry = this.countryOnly?.filter(country=>{
+          return country.toLowerCase().indexOf(Country.toLowerCase())>-1
         })
+    }
+
+    filterCity(city:String)
+    {
+      this.filteredCity = this.selectedCity.filter(City=>
+        {
+          return City.toLowerCase().indexOf(city.toLowerCase())>-1
+        })
+    }
+
+    loadDataIfDoesntExists()
+    { //fetches the data from backend, and store it once and use for every subscription
+     this.countriesSub = this.store.pipe(select(getCountryResponse)).subscribe((data)=>{
+        if(!data)
+        {
+          this.store.dispatch(getCountryAction())
+          this.countriesOb$ = this.store.select(getCountryResponse)
+          
+        }
+
+        else{
+          this.countriesOb$ = this.store.select(getCountryResponse)
+        }
+      })
     }
 
 }

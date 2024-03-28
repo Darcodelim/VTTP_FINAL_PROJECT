@@ -6,6 +6,7 @@
     <title>Document</title>
 </head>
 <body>
+    <app-loading-spinner *ngIf="showLoading$ | async"></app-loading-spinner>
     <h2>GPT Response</h2>
 
     <div *ngIf="GPTresponse$ | async as Response; else noReponse">

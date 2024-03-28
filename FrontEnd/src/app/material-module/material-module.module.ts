@@ -16,6 +16,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
     MatSlideToggleModule,
     MatCheckboxModule,
     MatTableModule,
-    MatLuxonDateModule,
+    MatNativeDateModule,
+    // MatLuxonDateModule,
     MatAutocompleteModule
   ],
   exports: [
@@ -49,9 +51,11 @@ import { MatLuxonDateModule } from '@angular/material-luxon-adapter';
     MatSlideToggleModule,
     MatCheckboxModule,
     MatTableModule,
-    MatLuxonDateModule,
+    MatNativeDateModule,//swap to this, as luxon date object is different from JavaScript date object
+    // MatLuxonDateModule,
     MatAutocompleteModule
-  ]
+  ],
+  providers:[{provide: MAT_DATE_LOCALE,useValue:'en-GB'}]
 })
 export class MaterialModuleModule {   
 

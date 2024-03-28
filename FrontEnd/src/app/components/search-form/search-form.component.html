@@ -7,8 +7,26 @@
     <title>Search</title>
 </head>
 <body>
+    
     <div class="container h-100 d-flex justify-content-center align-items-center ">
-        <form [formGroup]="formGroup" class="side-by-side-form">
+        <form [formGroup]="formGroup" class="side-by-side-form" (ngSubmit)="onSubmit()">
+
+            <mat-form-field >
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="rangePicker" [min]="minDate">
+                  <input   matStartDate formControlName="startDate" placeholder="Start date" >
+                  <input matEndDate formControlName="endDate" placeholder="End date">
+                </mat-date-range-input>
+                <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="rangePicker"></mat-datepicker-toggle>
+                <mat-date-range-picker #rangePicker>
+                  <mat-date-range-picker-actions>
+                    <button mat-button matDateRangePickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
+                  </mat-date-range-picker-actions>
+                </mat-date-range-picker>
+              </mat-form-field>
+
             <mat-form-field>
             <mat-label>
                 Countries
@@ -28,24 +46,34 @@
                 </mat-label>
                 <input formControlName="region" matInput type="text" [matAutocomplete]="autoRegion">
                 <mat-autocomplete #autoRegion="matAutocomplete">
-                    <mat-option *ngFor="let region of selectedRegion" [value]="region">
+                    <mat-option *ngFor="let region of filteredRegion" [value]="region">
                     {{region}}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
 
             
-            <mat-form-field>
+            <mat-form-field *ngIf="includeCityMunicipal">
                 <mat-label>
                     City/Municipal
                 </mat-label>
-                <input formControlName="country" matInput type="text" [matAutocomplete]="auto">
-                <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let country of filteredCountry" [value]="country">
-                    {{country}}
+                <input formControlName="municipal" matInput type="text" [matAutocomplete]="autoCity">
+                <mat-autocomplete #autoCity="matAutocomplete">
+                    <mat-option *ngFor="let city of filteredCity" [value]="city">
+                    {{city}}
                     </mat-option>
                 </mat-autocomplete>
-                </mat-form-field>
+            </mat-form-field>
+
+  
+            <button type="submit" class="btn btn-dark" [disabled]="formGroup.invalid" >LFG</button>
+
+            
+            <section class="checkbox">
+                <mat-checkbox class="example-margin" [color]="'primary'" (change)="toggleCityMunicipal($event.checked)">Include city/municipal</mat-checkbox>
+
+              </section>
+
         </form>
     </div>
 </body>
