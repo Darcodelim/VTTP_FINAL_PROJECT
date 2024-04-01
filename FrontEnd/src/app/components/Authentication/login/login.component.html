@@ -34,7 +34,7 @@
           </mat-form-field>
     
           <button type="submit" class="bottom-login-button" [disabled]="loginForm.invalid"><mat-icon aria-hidden="false" aria-label="" fontIcon="flight_takeoff"></mat-icon>Login</button>
-          <button type="button" class="bottom-signup-button"[routerLink]="['/signUp']" ><mat-icon aria-hidden="false" aria-label="" fontIcon="person_add"></mat-icon>Sign Up</button>
+          <button type="button" class="bottom-signup-button"[routerLink]="['/signUp']" ><mat-icon aria-hidden="false" aria-label="" fontIcon="person_add"[routerLink]="['/signUp']"></mat-icon>Sign Up</button>
     
         </form>
       </div>

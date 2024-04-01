@@ -2,6 +2,7 @@ package vttp.finalProject.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,7 @@ import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 
 import vttp.finalProject.Service.GPTservice;
+import vttp.finalProject.Service.ItineraryService;
 
 @RestController
 @RequestMapping("/api")
@@ -31,13 +33,27 @@ public class GPTController {
     @Autowired
     GPTservice gpTservice;
 
+    @Autowired
+    ItineraryService itinerarySvc;
+
+    Optional<String> ResponseOpt;
+
 
     @GetMapping("GPT/insertPrompt")
     public ResponseEntity<String> chat(@RequestParam("prompt") String prompt)
     {   System.out.println(prompt);
         String response = "";
-        try {
-             response = gpTservice.chatOutput(prompt);
+        
+        try {   
+            ResponseOpt=Optional.of(gpTservice.chatOutput(prompt));
+            if(response.isEmpty())
+            {
+                 
+                 response = ResponseOpt.get();
+                
+            }
+            
+             
         } catch (Exception e) {
             e.printStackTrace();
             JsonObject errorJson = Json.createObjectBuilder().add("error",e.getMessage()).build();

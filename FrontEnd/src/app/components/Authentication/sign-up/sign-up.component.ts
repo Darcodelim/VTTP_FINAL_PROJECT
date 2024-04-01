@@ -4,6 +4,8 @@ import { AppState } from '../../../store/app.state';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { debounceTime } from 'rxjs';
+import { User } from '../../../Models/User';
+import { signUpStart } from '../state/auth.actions';
 
 @Component({
   selector: 'app-sign-up',
@@ -73,8 +75,18 @@ export class SignUpComponent implements OnChanges {
   onSignUpSubmit(){
 
     this.router.navigate(['/']);
+    const formEmail = this.signUpForm.value.email
+    const confirmPassword =  this.signUpForm.value.confirmPassword
+
+    const userForm:User = {
+      email:formEmail,
+      password:confirmPassword
+    }
+    
+
+
     // this.store.dispatch(setLoadingSpinner({status:true}))
-    // this.store.dispatch(loginStart({user:User}));
+    this.store.dispatch(signUpStart({user:userForm}));
     // console.log(this.signUpForm.value)
   }
 

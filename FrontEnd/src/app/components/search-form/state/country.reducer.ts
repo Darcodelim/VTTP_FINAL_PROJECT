@@ -1,6 +1,7 @@
 import { createReducer, on } from "@ngrx/store"
 import { initialCountryState, initialFormCountryState } from "./country.state"
 import {  storeCountryFormAction, storeCountryResponse } from "./country.action"
+import { LogOut } from "../../shared/state/shared.action"
 
 
 
@@ -21,7 +22,12 @@ const _countryFormReducer = createReducer(initialFormCountryState,on(storeCountr
     return{
         ...state,countryFormData:action.countryFormData
     }
-}))
+}),
+on(LogOut,(state,action)=>{
+
+    return {...initialFormCountryState}
+}
+))
 
 export function countryReducer(state:any, action:any)
 {

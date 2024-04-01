@@ -6,6 +6,7 @@ import { loginStart } from '../state/auth.actions';
 import { merge } from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop'
 import { Router } from '@angular/router';
+import { User } from '../../../Models/User';
 
 @Component({
   selector: 'app-login',
@@ -66,9 +67,9 @@ export class LoginComponent {
 
   onLoginSubmit(){
 
-    this.router.navigate(['/']);
-    // this.store.dispatch(setLoadingSpinner({status:true}))
-    // this.store.dispatch(loginStart({user:User}));
+    // this.router.navigate(['/']);
+    const userForm:User = this.loginForm.value
+    this.store.dispatch(loginStart({user:userForm}));
     console.log(this.loginForm.value)
   }
 

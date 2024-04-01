@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { setLoadingSpinner } from "./shared.action";
+import { LogOut, setLoadingSpinner } from "./shared.action";
 import { initialSharedState } from "./shared.state";
 
 
@@ -8,8 +8,13 @@ const _sharedReducer = createReducer(initialSharedState,on(setLoadingSpinner,(st
     return{
         ...state,showLoading:action.status
     }
+
     
-}))
+}),on(LogOut,(state,action)=>{
+
+   return {...initialSharedState}
+})
+)
 
 export function SharedReducer(state:any,action:any)
 {

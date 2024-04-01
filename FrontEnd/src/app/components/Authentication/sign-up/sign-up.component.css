@@ -11,23 +11,19 @@
 }
 
 .bottom-login-button {
-    background: #435688;
-    color: #fff;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.5s;
-    /* border: 1px solid #435688; */
-    outline: none;
-    
-    margin-top: 10px;
-    width:100%; /* Add space between the password field and the additional button */
-    position:relative
+  background: #435688;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.5s;
+  /* border: 1px solid #435688; */
+  outline: none;
+  
+  margin-top: 10px;
+  width:100%; /* Add space between the password field and the additional button */
+  position:relative
 
-  }
-  .bottom-login-button:disabled {
-    opacity: 0.6; /* Adjust opacity to visually indicate the button is disabled */
-    cursor: not-allowed; /* Change cursor to indicate the button is not clickable */
-  }
+}
 
   .bottom-signup-button {
     background: #9e3434;
@@ -48,6 +44,13 @@
     left: 5px; /* Adjust the left position as needed */
     top: 50%; /* Align the icon vertically in the middle */
     transform: translateY(-50%); /* Center the icon vertically */
+  }
+  .bottom-login-button mat-icon {
+    position: absolute; /* Position the icon absolutely */
+    left: 5px; /* Adjust the left position as needed */
+    top: 50%; /* Align the icon vertically in the middle */
+    transform: translateY(-50%); /* Center the icon vertically */
+    
   }
 
   .bottom-signup-button:disabled {

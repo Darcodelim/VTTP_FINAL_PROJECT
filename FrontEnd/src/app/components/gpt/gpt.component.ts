@@ -1,15 +1,21 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ItineraryService } from '../../Services/itinerary.service';
 import { GPTResponse } from '../../Models/gptModels';
-import { EMPTY, Observable, Subscription, mergeMap, of, take } from 'rxjs';
+import { EMPTY, Observable, Subscription, mergeMap, of, take, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
-import { sendPrompt } from './state/gpt.action';
+import { addItinerary, sendPrompt } from './state/gpt.action';
 import { getGptResponse } from './state/gpt.selector';
 import { formCountry } from '../../Models/countryModels';
 import { getFormData } from '../search-form/state/country.selector';
 import { setLoadingSpinner } from '../shared/state/shared.action';
 import { getLoading } from '../shared/state/shared.selector';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogTitleFormComponent } from '../dialog-title-form/dialog-title-form.component';
+import { getTitle } from '../dialog-title-form/state/dialog.selector';
+import { DialogNoTitleComponent } from '../dialog-no-title/dialog-no-title.component';
+import { LoginState } from '../Authentication/state/auth.state';
+import { isLoginRegistered } from '../Authentication/state/auth.selector';
 
 @Component({
   selector: 'app-gpt',
@@ -20,17 +26,23 @@ export class GPTComponent implements OnInit,OnDestroy {
 
   private itinerarySvc=inject(ItineraryService)
 
+  //Observable
   GPTresponse$!:Observable<GPTResponse|null>
-
   countryForm$!:Observable<formCountry|null>
-
+  title$!:Observable<string|null>
+  loginState$!:Observable<LoginState>
   
-    //Loading spinner
-    showLoading$!:Observable<boolean>;
+  //Loading spinner
+  showLoading$!:Observable<boolean>;
 
+  //Subscriptions
   countryFormSub!:Subscription
-  prompts:string ="";
+  titleSub!:Subscription
+  loginStateSub!:Subscription
 
+  prompts!:string ;
+
+  //Form variables
   startDate!:Date
   endDate!:Date
   country!:String
@@ -40,13 +52,41 @@ export class GPTComponent implements OnInit,OnDestroy {
   
 
   days!:String
+  Title!:string
+  username!:string
+  GPTResponse!:GPTResponse
+  
 
-  constructor(private store:Store<AppState>)
+  constructor(private store:Store<AppState>,public dialog: MatDialog)
   {
     this.store.dispatch(setLoadingSpinner({status:true}))
     this.showLoading$ = this.store.select(getLoading)
     // this.GPTresponse$=this.itinerarySvc.getGptResponse(this.prompts)
+
+    //CountryForm
     this.countryForm$ = this.store.select(getFormData)
+    //Title
+    this.title$=this.store.select(getTitle)
+    this.titleSub =this.title$.subscribe((data)=>{
+      if(data)
+      {
+        this.Title = data
+      }
+    }
+
+   )
+
+    //LoginState
+    this.loginState$=this.store.select(isLoginRegistered)
+    this.loginStateSub = this.loginState$.subscribe((loginState)=>{
+      if(loginState.username)
+      {
+        this.username=loginState.username
+      }
+      });
+
+    
+    
     //As a safety precaution, I use take(1) just in case there are observables that didnt unsubscribe
    this.countryFormSub= this.countryForm$.pipe(take(1)).subscribe(formData=>
       {
@@ -59,8 +99,8 @@ export class GPTComponent implements OnInit,OnDestroy {
           this.municipal = formData?.municipal
   
           this.days =this.calculateDays(this.startDate,this.endDate )
-          const startDateWithFormat = this.startDate?.toLocaleDateString('en-GB') //ddmmyyyy
-          const endDateWithFormat = this.endDate?.toLocaleDateString('en-GB')
+          const startDateWithFormat = this.startDate?.toLocaleDateString('es-CL') //ddmmyyyy
+          const endDateWithFormat = this.endDate?.toLocaleDateString('es-CL')
 
           let prompt:string;
           if(this.municipal.length>1)
@@ -86,6 +126,8 @@ export class GPTComponent implements OnInit,OnDestroy {
   ngOnDestroy(): void {
     //Must unsubscribe here as well, if not the memory would lead to multiple emissions during navigation in other components
     this.countryFormSub.unsubscribe();
+    this.titleSub.unsubscribe();
+    this.loginStateSub.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -96,6 +138,17 @@ export class GPTComponent implements OnInit,OnDestroy {
         this.GPTresponse$ = this.store.select(getGptResponse)
         this.showLoading$ =this.store.select(getLoading)
       }
+
+      // this.prompts="create a 4 day itinerary for Japan,Hokkaido from 29/03/2024-01/04/2024"
+
+      //   this.store.dispatch(sendPrompt({prompt:this.prompts}))
+      //   this.GPTresponse$ = this.store.select(getGptResponse)
+      //   this.showLoading$ =this.store.select(getLoading)
+      
+      
+      //remove the extra setLoadingSpinner after all the webpage designing
+      // this.store.dispatch(setLoadingSpinner({status:false}));
+
 
   }
 
@@ -135,8 +188,40 @@ export class GPTComponent implements OnInit,OnDestroy {
 
     }
   
+    openDialog()
+    {
+      this.dialog.open(DialogTitleFormComponent,{
+        width:'400px'
+      });
+    }
+    
+    openNoTitleDialog()
+    {
+      this.dialog.open(DialogNoTitleComponent,{
+        width:'400px'
+      })
+    }
 
+    Save()
+    { 
+      console.log(this.Title?.length);
+      if(this.Title?.length === 1) //Space is considered as 1 character
+      {
+        this.openNoTitleDialog()
+      }
+      else{
+        this.GPTresponse$.subscribe((response)=>
+        {if(response)
+          {
+            this.GPTResponse=response
+          }
+          
+        })
+          
+        this.store.dispatch(addItinerary({username:this.username,title:this.Title,startDate:this.startDate?.toLocaleDateString('es-CL'),endDate:this.endDate?.toLocaleDateString('es-CL'),response:this.GPTResponse}))
 
+      }
+    }
   }
 
 

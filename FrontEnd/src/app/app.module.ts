@@ -21,6 +21,13 @@ import { CountryService } from './Services/country.service';
 import { LoadingSpinnerComponent } from './components/shared/loading-spinner-gptResponse/loading-spinner.component';
 import { LoginComponent } from './components/Authentication/login/login.component';
 import { SignUpComponent } from './components/Authentication/sign-up/sign-up.component';
+import { AuthEffects } from './components/Authentication/state/auth.effects';
+import { NavbarComponent } from './components/shared/navbar/navbar.component';
+import { SharedEffects } from './components/shared/state/shared.effect';
+import { DialogTitleFormComponent } from './components/dialog-title-form/dialog-title-form.component';
+import { DialogNoTitleComponent } from './components/dialog-no-title/dialog-no-title.component';
+import { ItineriesListComponent } from './components/itineries-list/itineries-list.component';
+
 
 
 @NgModule({
@@ -31,11 +38,15 @@ import { SignUpComponent } from './components/Authentication/sign-up/sign-up.com
     LoadingSpinnerComponent,
     LoginComponent,
     SignUpComponent,
+    NavbarComponent,
+    DialogTitleFormComponent,
+    DialogNoTitleComponent,
+    ItineriesListComponent
 
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,HttpClientModule,StoreModule.forRoot(appReducer),EffectsModule.forRoot([GptEffects,countryEffects]),
+    AppRoutingModule,HttpClientModule,StoreModule.forRoot(appReducer),EffectsModule.forRoot([GptEffects,countryEffects,AuthEffects,SharedEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode

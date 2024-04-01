@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Enter Title</h2>
+<mat-dialog-content>
+  <mat-form-field >
+    <input matInput #queryNameInput placeholder="Title Name">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button mat-button color="primary" [mat-dialog-close] (click)="onSubmit(queryNameInput.value)">Save</button>
+</mat-dialog-actions>

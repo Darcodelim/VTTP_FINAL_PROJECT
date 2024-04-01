@@ -7,8 +7,8 @@ import { SignUpComponent } from './components/Authentication/sign-up/sign-up.com
 
 
 const routes: Routes = [
-  {path:"login",component:LoginComponent},
-  {path:"",component:SignUpComponent},
+  {path:"",component:LoginComponent},
+  {path:"signUp",component:SignUpComponent},
   {path:"search",component:SearchFormComponent},
   {path:"itinerary",component:GPTComponent},
   {path:'**',redirectTo:'/',pathMatch:'full'}

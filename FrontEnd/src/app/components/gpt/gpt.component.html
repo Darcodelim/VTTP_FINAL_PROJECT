@@ -7,18 +7,44 @@
 </head>
 <body>
     <app-loading-spinner *ngIf="showLoading$ | async"></app-loading-spinner>
-    <h2>GPT Response</h2>
+    <!-- <h2>GPT Response</h2> -->
 
-    <div *ngIf="GPTresponse$ | async as Response; else noReponse">
+    <div class="container">
+        <div class="row border">
+            <div class="col-10 border" ><span>Title: {{Title}}</span></div>
+            <div class="col-2 border"><button class="btn btn-light" (click)="openDialog()">Add/Change Title</button></div>
+        </div>
+        
+    <!-- <div *ngIf="GPTresponse$ | async as Response; else noReponse"> -->
+        <div *ngIf="GPTresponse$ | async as Response; ">
+            
 
         <div *ngIf="Response.Activities.length>0">
-            <div>
-            Country:<span>{{Response.Country}}</span>
-            Region:<span>{{Response.Region}}</span>
-            Duration:<span>{{Response.Duration}}</span>
-            Start Date:<span>{{Response.Start_Date}}</span>
-            End Date:<span>{{Response.End_Date}}</span>
-            Activities:<span *ngFor = "let a of Response.Activities">
+
+            <div class="row border">
+                <div class="col-6">Start Date:<span>{{Response.Start_Date}}</span></div>
+                <div class="col-6">End Date:<span>{{Response.End_Date}}</span></div>
+            </div>
+
+            <div class="row border">
+                    <div class="col-6">Country:<span>{{Response.Country}}</span></div>
+                    <div class="col-6">Region:<span>{{Response.Region}}</span></div>
+                   
+            </div>    
+        
+            <div class="row border border-primary justify-content-center">
+                        Duration:{{Response.Duration}}
+            </div>
+
+            <!-- Treat the whole activity as a row -->
+            
+<!--         
+            Activities: -->
+            
+            <div *ngFor = "let a of Response.Activities; let i = index" class="grid  row-gap-5 border border-primary">
+            <div class="mt-1 row border border-danger">
+            <div class =" col-6 border {{ i % 2 === 0 ? 'order-md-2' : 'order-md-1' }}">
+                <div>{{i}}</div>
                 <div>Day:{{a.Day}}</div>
                 <div>Date:{{a.Date}}</div>
                 <div>Location:{{a.Location}}</div>
@@ -27,15 +53,29 @@
                     </div></div>
            
 
-
-            </span>
+                </div>
+                <div class="col-6 border  {{ i % 2 === 0 ? 'order-md-1' : 'order-md-2' }}">
+                    <!-- for image -->
+                    <div>Hi</div>
+                </div>
+            
+           
+            </div>   
+        
             </div>
         </div>
     </div>
 
-    <ng-template #noReponse>
+    <div class="row border">
+        <div class="col-10 border"></div>
+        <div class="col-2 border"><button class="btn btn-secondary" (click)="Save()">Save</button></div>
+    </div>
+    <!-- <ng-template #noReponse>
         No data
-    </ng-template>
+    </ng-template> -->
+</div>
+
+
 
 </body>
 </html>

@@ -19,7 +19,9 @@ import jakarta.json.JsonArrayBuilder;
 import vttp.finalProject.Model.CountriesRegionCity.Cities;
 import vttp.finalProject.Model.CountriesRegionCity.CountriesRegionCities;
 import vttp.finalProject.Model.CountriesRegionCity.Regions;
+import vttp.finalProject.Model.Itinerary.ItinerarySql;
 import vttp.finalProject.Repository.CountryRepo;
+import vttp.finalProject.Repository.ItineraryRepo;
 import vttp.finalProject.Utils.utils;
 
 @SpringBootApplication
@@ -30,6 +32,9 @@ public class ProjectApplication implements CommandLineRunner {
 
 	@Autowired
 	MongoTemplate template;
+
+	@Autowired
+	ItineraryRepo itineraryRepo;
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectApplication.class, args);
 	}
@@ -47,6 +52,13 @@ public class ProjectApplication implements CommandLineRunner {
 
 	
 		// System.out.println(allCountriesArray.build().toString() );
+
+		List<ItinerarySql> itinerarySqls = itineraryRepo.getItineraries("darien@gmail.com");
+
+		for(ItinerarySql i : itinerarySqls)
+		{
+			System.out.println(i.toString());
+		}
 	}
 
 }

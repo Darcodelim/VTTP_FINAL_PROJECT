@@ -26,11 +26,24 @@ export class ItineraryService {
   {
     let param = new HttpParams();
     param = param.set('prompt',prompt)
-    return this.http.get<GPTResponse>('api/GPT/insertPrompt',{params:param}).pipe(
+    return this.http.get<GPTResponse>('api/GPT/insertPrompt',{params:param})
+    .pipe(
       catchError((err)=> 
       this.handleError(err)
       )
     );
+  }
+
+  insertItinerary(username:string, itineraryTitle:string,startDate:string,endDate:string,itinerary:GPTResponse):Observable<string>
+  {
+    console.log(username)
+    console.log(itineraryTitle)
+    console.log(itinerary.Country)
+    let param = new HttpParams();
+    param = param.set('username',username).set('title',itineraryTitle).set('startDate',startDate).set('endDate',endDate);
+
+    return this.http.post<string>('api/insertItinerary',itinerary,{params:param})
+    
   }
 
 

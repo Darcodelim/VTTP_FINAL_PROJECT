@@ -1,4 +1,10 @@
 import { Country } from "../Models/countryModels";
+import { errorReducer, loginReducer } from "../components/Authentication/state/auth.reducer";
+import { ERROR_STATE_NAME, LOGIN_STATE_NAME } from "../components/Authentication/state/auth.selector";
+import { LoginState, loginErrorState } from "../components/Authentication/state/auth.state";
+import { dialogReducer } from "../components/dialog-title-form/state/dialog.reducer";
+import { DIALOG_TITLE_STATE_NAME } from "../components/dialog-title-form/state/dialog.selector";
+import { dialogTitleState } from "../components/dialog-title-form/state/dialog.state";
 import { gptReducer } from "../components/gpt/state/gpt.reducer";
 import { GPT_STATE_NAME } from "../components/gpt/state/gpt.selector";
 import { gptState } from "../components/gpt/state/gpt.state";
@@ -15,6 +21,9 @@ export interface AppState
     [COUNTRY_STATE_NAME]:countryState
     [COUNTRY_FORM_STATE_NAME]:countryFormState
     [SHARED_STATE_NAME]:SharedState
+    [LOGIN_STATE_NAME]:LoginState
+    [ERROR_STATE_NAME]:loginErrorState
+    [DIALOG_TITLE_STATE_NAME]:dialogTitleState
 }
 
 export const appReducer = {
@@ -22,6 +31,8 @@ export const appReducer = {
     [GPT_STATE_NAME]:gptReducer,
     [COUNTRY_STATE_NAME]:countryReducer,
     [COUNTRY_FORM_STATE_NAME]:countryFormReducer,
-    [SHARED_STATE_NAME]:SharedReducer
-
+    [SHARED_STATE_NAME]:SharedReducer,
+    [LOGIN_STATE_NAME]:loginReducer,
+    [ERROR_STATE_NAME]:errorReducer,
+    [DIALOG_TITLE_STATE_NAME]:dialogReducer
 }

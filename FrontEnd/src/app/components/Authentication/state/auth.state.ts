@@ -4,7 +4,7 @@
 
 export interface LoginState{
     loginStatus:boolean
-    username:String|null
+    username:string|null
 }
 
 export const initialLoginState:LoginState={
