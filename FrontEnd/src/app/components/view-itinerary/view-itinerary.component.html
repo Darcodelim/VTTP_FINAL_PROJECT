@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ViewItinerary</title>
 </head>
 <body>
     <app-loading-spinner *ngIf="showLoading$ | async"></app-loading-spinner>
@@ -15,7 +15,7 @@
             <div class="col-2 border"><button class="btn btn-light" (click)="openDialog()">Add/Change Title</button></div>
         </div>
         
-    <div *ngIf="GPTresponse$ | async as Response; else noReponse">
+    <div *ngIf="mongoResponse$ | async as Response; else noReponse">
         <!-- <div *ngIf="GPTresponse$ | async as Response; "> -->
             
 
@@ -79,3 +79,4 @@
 
 </body>
 </html>
+

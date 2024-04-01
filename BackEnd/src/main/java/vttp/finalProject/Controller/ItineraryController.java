@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,15 +46,47 @@ public class ItineraryController {
             return ResponseEntity.ok().body(itinerary);
 
         }
+        
+        
 
         @DeleteMapping("/deleteItinerary/{itineraryID}")
         public ResponseEntity<String> deleteItinerary(@PathVariable String itineraryID )
         {   
             System.out.println(itineraryID);
-            Boolean itinerary =  itinerarySvc.deleteItineraryMongo(itineraryID);
-            JsonObject resultObject =  Json.createObjectBuilder().add("Deleted",Boolean.toString(itinerary)).build();
-            return ResponseEntity.ok().body(resultObject.toString());
+            boolean deleteStatus = itinerarySvc.deleteItinerary(itineraryID);
+            JsonObject resultObject =  Json.createObjectBuilder().add("Deleted",Boolean.toString(deleteStatus)).add("itineraryID",itineraryID).build();
+           
+            if(deleteStatus)
+            {
+                return ResponseEntity.ok().body(resultObject.toString());
 
+            }
+
+            else{
+
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(resultObject.toString());
+            }
+
+        }
+
+        @PatchMapping("/editItineraryTitle/{itineraryID}")
+        public ResponseEntity<String> editItineraryTitle(@RequestBody String payload, @PathVariable String itineraryID )
+        {
+            try {
+                JsonReader reader = Json.createReader(new StringReader(payload));
+                JsonObject json = reader.readObject();
+                String title = json.getString("title");
+                itinerarySvc.editItineraryTitle(itineraryID, title);
+                
+                
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                JsonObject Errorstatus = Json.createObjectBuilder().add("Status","Itinerary title edited unsuccessfully").build();
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(Errorstatus.toString());
+            }
+            JsonObject status = Json.createObjectBuilder().add("Status","Itinerary title edited successfully").build();
+            return ResponseEntity.ok().body(status.toString());
         }
 
 
@@ -91,6 +124,19 @@ public class ItineraryController {
 
         }
 
+        @GetMapping("/getItinerary/{itineraryID}")
+        public ResponseEntity<String> getItinerary(@PathVariable String itineraryID )
+        {   
+            System.out.println(itineraryID);
+
+            String mongoResponse = itinerarySvc.getItineraryMongo(itineraryID);
+        
+   
+                return ResponseEntity.ok().body(mongoResponse);
+
+            }
+
 
 
 }
+

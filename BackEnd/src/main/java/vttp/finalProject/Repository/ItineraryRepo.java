@@ -36,10 +36,13 @@ public class ItineraryRepo {
     
     private static final String SQL_INSERT_Itinerary = "insert into itineraryuserdata(Email,ItineraryTitle,startDate,endDate,ItineraryID) values(?,?,?,?,?)";
     private static final String SQL_GET_ITINERARIES = "SELECT ItineraryTitle, DATE_FORMAT(startDate, '%d-%m-%Y') AS startDate, DATE_FORMAT(endDate, '%d-%m-%Y') AS endDate,ItineraryID,DATE_FORMAT(dateCreated, '%d-%m-%Y') AS dateCreated FROM itineraryuserdata WHERE Email=? ORDER BY dateCreated ASC" ;
-
+    private static final String SQL_DELETE_ITINERARIES ="DELETE from itineraryuserdata WHERE ItineraryID = ?";
+    private static final String SQL_EDIT_TITLE = "UPDATE itineraryuserdata SET ItineraryTitle = ? where ItineraryID= ?";
 
 
     private static final String Itinerary_Collection ="Itinerary";
+
+
    
     
     public void insertItinerary(String Email,String itineraryTitle,String startDate, String endDate, String itineraryID ) throws UserException
@@ -61,6 +64,35 @@ public class ItineraryRepo {
             {
                 throw new UserException("User Itinerary Exist");
             }
+        
+    
+    }
+    public boolean editTitleSQLItinerary(String title,String itineraryID) throws Exception
+    {
+        int num = template.update(SQL_EDIT_TITLE,title,itineraryID);
+
+        if(num!=1)
+        {   
+            throw new Exception("unable to edit title");
+            
+        }
+        else{
+           return true;
+        }
+    }
+
+        
+    public boolean deleteSQLItinerary(String itineraryID )
+    {
+            int num = template.update(SQL_DELETE_ITINERARIES,itineraryID);
+            if(num >= 1)
+            {
+                return true;
+            }
+            else{
+                return false;
+            }
+
         
     
     }

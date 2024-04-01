@@ -1,8 +1,8 @@
 export interface itineraryInfo{
-    ItineraryTitle:string;
+    itineraryTitle:string;
     startDate:string;
     endDate:string;
-    ItineraryID:string;
+    itineraryID:string;
     dateCreated:string;
 
 }

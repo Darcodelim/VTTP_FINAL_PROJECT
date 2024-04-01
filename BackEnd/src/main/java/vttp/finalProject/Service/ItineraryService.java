@@ -45,6 +45,34 @@ public class ItineraryService {
         return itinRepo.getItineraries(email);
     }
 
+    @Transactional(rollbackFor = DataAccessException.class)
+    public boolean deleteItinerary(String itineraryID)
+    {   
+        boolean monogoDelete = itinRepo.deleteItineraryMongo(itineraryID);
+
+        boolean sqlDelete = itinRepo.deleteSQLItinerary(itineraryID);
+
+        System.out.printf("MonogoDelete:%s\n",monogoDelete?"true":"false");
+        System.out.printf("sqlDelete:%s",sqlDelete?"true":"false");
+        
+
+        if(sqlDelete && monogoDelete)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean editItineraryTitle(String itineraryID, String title) throws Exception
+    {
+        boolean sqlEdit = itinRepo.editTitleSQLItinerary(title, itineraryID);
+
+        return sqlEdit;
+    }
+
     
 
     //MONGO

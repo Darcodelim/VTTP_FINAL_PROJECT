@@ -27,6 +27,9 @@ import { SharedEffects } from './components/shared/state/shared.effect';
 import { DialogTitleFormComponent } from './components/dialog-title-form/dialog-title-form.component';
 import { DialogNoTitleComponent } from './components/dialog-no-title/dialog-no-title.component';
 import { ItineriesListComponent } from './components/itineries-list/itineries-list.component';
+import { ItineriesListEffects } from './components/itineries-list/state/itineriesList.effects';
+import { ViewItineraryComponent } from './components/view-itinerary/view-itinerary.component';
+import { viewItineraryEffects } from './components/view-itinerary/state/viewItineraryeffects';
 
 
 
@@ -41,12 +44,13 @@ import { ItineriesListComponent } from './components/itineries-list/itineries-li
     NavbarComponent,
     DialogTitleFormComponent,
     DialogNoTitleComponent,
-    ItineriesListComponent
+    ItineriesListComponent,
+    ViewItineraryComponent
 
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,HttpClientModule,StoreModule.forRoot(appReducer),EffectsModule.forRoot([GptEffects,countryEffects,AuthEffects,SharedEffects]),
+    AppRoutingModule,HttpClientModule,StoreModule.forRoot(appReducer),EffectsModule.forRoot([GptEffects,countryEffects,AuthEffects,SharedEffects,ItineriesListEffects,viewItineraryEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode

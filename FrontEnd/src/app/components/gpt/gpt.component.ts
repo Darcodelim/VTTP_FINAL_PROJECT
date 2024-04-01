@@ -4,7 +4,7 @@ import { GPTResponse } from '../../Models/gptModels';
 import { EMPTY, Observable, Subscription, mergeMap, of, take, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
-import { addItinerary, sendPrompt } from './state/gpt.action';
+import { addItinerary, clearGptResponse, sendPrompt } from './state/gpt.action';
 import { getGptResponse } from './state/gpt.selector';
 import { formCountry } from '../../Models/countryModels';
 import { getFormData } from '../search-form/state/country.selector';
@@ -16,6 +16,7 @@ import { getTitle } from '../dialog-title-form/state/dialog.selector';
 import { DialogNoTitleComponent } from '../dialog-no-title/dialog-no-title.component';
 import { LoginState } from '../Authentication/state/auth.state';
 import { isLoginRegistered } from '../Authentication/state/auth.selector';
+import { clearTitle } from '../dialog-title-form/state/dialog.action';
 
 @Component({
   selector: 'app-gpt',
@@ -124,10 +125,14 @@ export class GPTComponent implements OnInit,OnDestroy {
 
   }
   ngOnDestroy(): void {
+    //Clearing the states when leaving the page
+    this.store.dispatch(clearTitle());
+    this.store.dispatch(clearGptResponse());
     //Must unsubscribe here as well, if not the memory would lead to multiple emissions during navigation in other components
     this.countryFormSub.unsubscribe();
     this.titleSub.unsubscribe();
     this.loginStateSub.unsubscribe();
+
   }
 
   ngOnInit(): void {

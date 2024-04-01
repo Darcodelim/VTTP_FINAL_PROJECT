@@ -8,12 +8,18 @@ import { dialogTitleState } from "../components/dialog-title-form/state/dialog.s
 import { gptReducer } from "../components/gpt/state/gpt.reducer";
 import { GPT_STATE_NAME } from "../components/gpt/state/gpt.selector";
 import { gptState } from "../components/gpt/state/gpt.state";
+import { itineraryListReducer } from "../components/itineries-list/state/itineriesList.reducer";
+import { ITINERIES_LIST_STATE_NAME } from "../components/itineries-list/state/itineriesList.selector";
+import { itineriesListState } from "../components/itineries-list/state/itineriesList.state";
 import { countryFormReducer, countryReducer } from "../components/search-form/state/country.reducer";
 import { COUNTRY_FORM_STATE_NAME, COUNTRY_STATE_NAME } from "../components/search-form/state/country.selector";
 import { countryFormState, countryState } from "../components/search-form/state/country.state";
 import { SharedReducer } from "../components/shared/state/shared.reducer";
 import { SHARED_STATE_NAME } from "../components/shared/state/shared.selector";
 import { SharedState } from "../components/shared/state/shared.state";
+import { mongoItineraryReducer } from "../components/view-itinerary/state/viewItinerary.reducer";
+import { VIEW_ITINERARY_STATE_NAME } from "../components/view-itinerary/state/viewItinerary.selector";
+import { viewItineraryState } from "../components/view-itinerary/state/viewItinerary.state";
 
 export interface AppState
 {
@@ -24,6 +30,8 @@ export interface AppState
     [LOGIN_STATE_NAME]:LoginState
     [ERROR_STATE_NAME]:loginErrorState
     [DIALOG_TITLE_STATE_NAME]:dialogTitleState
+    [ITINERIES_LIST_STATE_NAME]:itineriesListState
+    [VIEW_ITINERARY_STATE_NAME]:viewItineraryState
 }
 
 export const appReducer = {
@@ -34,5 +42,7 @@ export const appReducer = {
     [SHARED_STATE_NAME]:SharedReducer,
     [LOGIN_STATE_NAME]:loginReducer,
     [ERROR_STATE_NAME]:errorReducer,
-    [DIALOG_TITLE_STATE_NAME]:dialogReducer
+    [DIALOG_TITLE_STATE_NAME]:dialogReducer,
+    [ITINERIES_LIST_STATE_NAME]:itineraryListReducer,
+    [VIEW_ITINERARY_STATE_NAME]:mongoItineraryReducer
 }

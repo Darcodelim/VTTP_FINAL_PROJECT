@@ -4,6 +4,8 @@ import { GPTComponent } from './components/gpt/gpt.component';
 import { SearchFormComponent } from './components/search-form/search-form.component';
 import { LoginComponent } from './components/Authentication/login/login.component';
 import { SignUpComponent } from './components/Authentication/sign-up/sign-up.component';
+import { ItineriesListComponent } from './components/itineries-list/itineries-list.component';
+import { ViewItineraryComponent } from './components/view-itinerary/view-itinerary.component';
 
 
 const routes: Routes = [
@@ -11,6 +13,8 @@ const routes: Routes = [
   {path:"signUp",component:SignUpComponent},
   {path:"search",component:SearchFormComponent},
   {path:"itinerary",component:GPTComponent},
+  {path:"itineraryList",component:ItineriesListComponent},
+  {path:"viewItinerary",component:ViewItineraryComponent},
   {path:'**',redirectTo:'/',pathMatch:'full'}
 ];
 

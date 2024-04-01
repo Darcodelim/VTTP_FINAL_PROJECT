@@ -13,17 +13,17 @@ create table ItineraryUser (
 );
 
 create table ItineraryUserData (
-   ItineraryNo int NOT NULL AUTO_INCREMENT,
+      -- from mongodb
+   ItineraryID varchar(128) not null, 
    Email varchar(254) not null,
    ItineraryTitle varchar(254) not null,
    startDate date not null,
    endDate date not null,
-   -- from mongodb
-   ItineraryID varchar(128) not null, 
+
 
    dateCreated datetime DEFAULT now(),
 
-   primary key(ItineraryNo),
+   primary key(ItineraryID),
    constraint fk_po_id foreign key(Email) references ItineraryUser(Email)
 );
 
