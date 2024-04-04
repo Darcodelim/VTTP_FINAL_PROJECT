@@ -149,7 +149,7 @@ public class ItineraryRepo {
 
         Document doc = monogoTemplate.findById(objectId, Document.class, Itinerary_Collection);
         doc.remove("_id");
-        System.out.println(doc.toJson());
+        // System.out.println(doc.toJson());
         return doc.toJson();
     }
 

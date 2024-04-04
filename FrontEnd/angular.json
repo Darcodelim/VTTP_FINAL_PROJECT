@@ -73,7 +73,9 @@
             },
             "development": {
               "buildTarget": "FrontEnd:build:development",
-              "proxyConfig": "src/proxy.conf.json"
+              "proxyConfig": "src/proxy.conf.json",
+              "headers": {
+                "Cross-Origin-Opener-Policy":"unsafe-none"}
             }
           },
           "defaultConfiguration": "development"

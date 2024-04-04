@@ -8,6 +8,7 @@ use Itinerary;
 create table ItineraryUser (
    Email varchar(254) not null,
    Password varchar(30) not null,
+   googleToken varchar(1000),
 
    primary key(Email)
 );

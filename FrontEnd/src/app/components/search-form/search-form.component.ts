@@ -151,6 +151,8 @@ export class SearchFormComponent implements OnDestroy {
       const countryform:formCountry =  this.formGroup.value
       // console.log(countryform);
 
+      console.log(countryform.startDate);
+
       this.store.dispatch(storeCountryFormAction({countryFormData:countryform}))
       
       this.router.navigate(['/itinerary'])

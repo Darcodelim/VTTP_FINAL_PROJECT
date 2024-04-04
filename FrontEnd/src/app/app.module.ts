@@ -30,6 +30,8 @@ import { ItineriesListComponent } from './components/itineries-list/itineries-li
 import { ItineriesListEffects } from './components/itineries-list/state/itineriesList.effects';
 import { ViewItineraryComponent } from './components/view-itinerary/view-itinerary.component';
 import { viewItineraryEffects } from './components/view-itinerary/state/viewItineraryeffects';
+import { GoogleCalendarComponent } from './components/google-calendar/google-calendar.component';
+import { googleAuthEffects } from './components/google-calendar/state/googleCalendar.effects';
 
 
 
@@ -45,12 +47,13 @@ import { viewItineraryEffects } from './components/view-itinerary/state/viewItin
     DialogTitleFormComponent,
     DialogNoTitleComponent,
     ItineriesListComponent,
-    ViewItineraryComponent
+    ViewItineraryComponent,
+    GoogleCalendarComponent
 
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,HttpClientModule,StoreModule.forRoot(appReducer),EffectsModule.forRoot([GptEffects,countryEffects,AuthEffects,SharedEffects,ItineriesListEffects,viewItineraryEffects]),
+    AppRoutingModule,HttpClientModule,StoreModule.forRoot(appReducer),EffectsModule.forRoot([GptEffects,countryEffects,AuthEffects,SharedEffects,ItineriesListEffects,viewItineraryEffects,googleAuthEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode

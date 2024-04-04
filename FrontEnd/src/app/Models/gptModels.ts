@@ -16,6 +16,7 @@ export interface activity{
     Day:string
     Date:string
     Location:string
+    Image:string
     Highlights:string[]
 
 }

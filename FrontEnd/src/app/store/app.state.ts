@@ -1,10 +1,13 @@
 import { Country } from "../Models/countryModels";
+import { authorizationStatus } from "../Models/googleCalendarModels";
 import { errorReducer, loginReducer } from "../components/Authentication/state/auth.reducer";
 import { ERROR_STATE_NAME, LOGIN_STATE_NAME } from "../components/Authentication/state/auth.selector";
 import { LoginState, loginErrorState } from "../components/Authentication/state/auth.state";
 import { dialogReducer } from "../components/dialog-title-form/state/dialog.reducer";
 import { DIALOG_TITLE_STATE_NAME } from "../components/dialog-title-form/state/dialog.selector";
 import { dialogTitleState } from "../components/dialog-title-form/state/dialog.state";
+import { AuthorizationReducer } from "../components/google-calendar/state/googleCalendar.reducer";
+import { Authorization_STATE_NAME } from "../components/google-calendar/state/googleCalendar.selector";
 import { gptReducer } from "../components/gpt/state/gpt.reducer";
 import { GPT_STATE_NAME } from "../components/gpt/state/gpt.selector";
 import { gptState } from "../components/gpt/state/gpt.state";
@@ -32,6 +35,7 @@ export interface AppState
     [DIALOG_TITLE_STATE_NAME]:dialogTitleState
     [ITINERIES_LIST_STATE_NAME]:itineriesListState
     [VIEW_ITINERARY_STATE_NAME]:viewItineraryState
+    [Authorization_STATE_NAME]:authorizationStatus
 }
 
 export const appReducer = {
@@ -44,5 +48,6 @@ export const appReducer = {
     [ERROR_STATE_NAME]:errorReducer,
     [DIALOG_TITLE_STATE_NAME]:dialogReducer,
     [ITINERIES_LIST_STATE_NAME]:itineraryListReducer,
-    [VIEW_ITINERARY_STATE_NAME]:mongoItineraryReducer
+    [VIEW_ITINERARY_STATE_NAME]:mongoItineraryReducer,
+    [Authorization_STATE_NAME]:AuthorizationReducer
 }

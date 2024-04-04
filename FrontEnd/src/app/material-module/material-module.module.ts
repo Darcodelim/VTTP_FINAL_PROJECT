@@ -60,7 +60,8 @@ import { MatSortModule } from '@angular/material/sort';
     MatDialogModule,
     MatSortModule
     
-  ],
+  ]
+  ,
   providers:[{provide: MAT_DATE_LOCALE,useValue:'en-GB'}]
 })
 export class MaterialModuleModule {   
