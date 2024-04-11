@@ -4,6 +4,10 @@ import { Observable, catchError, tap } from "rxjs";
 import { User } from "../Models/User";
 import { LoginState } from "../components/Authentication/state/auth.state";
 import { authorizationLink, authorizationStatus, eventFormFormat, revokeStatus } from "../Models/googleCalendarModels";
+import { environment } from "../../environments/environment";
+
+const URL = environment.url
+
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +19,7 @@ import { authorizationLink, authorizationStatus, eventFormFormat, revokeStatus }
 
       getAuthorizationLink():Observable<authorizationLink>
       {
-        return this.http.get<authorizationLink>('api/oauth2/authorize')
+        return this.http.get<authorizationLink>(`${URL}/api/oauth2/authorize`)
       }
 
       verifyAuthorization(username:string):Observable<authorizationStatus>
@@ -24,7 +28,7 @@ import { authorizationLink, authorizationStatus, eventFormFormat, revokeStatus }
 
         param = param.set('username',username);
 
-        return this.http.get<authorizationStatus>('api/oauth2/verify',{params:param})
+        return this.http.get<authorizationStatus>(`${URL}/api/oauth2/verify`,{params:param})
       }
 
     //   login(user:User):Observable<LoginState>
@@ -39,12 +43,12 @@ import { authorizationLink, authorizationStatus, eventFormFormat, revokeStatus }
     {
       let param = new HttpParams();
       param = param.set('title',eventForm.title).set('startDate',eventForm.startDate.toLocaleDateString('es-CL')).set('endDate',eventForm.endDate.toLocaleDateString('es-CL'));
-      return this.http.get<string>('api/insertCalendarEvent',{params:param})
+      return this.http.get<string>(`${URL}/api/insertCalendarEvent`,{params:param})
     }
 
     revokeToken()
     {
-      return this.http.get<revokeStatus>('api/oauth2/revokeToken');
+      return this.http.get<revokeStatus>(`${URL}/api/oauth2/revokeToken`);
     }
 
 

@@ -3,6 +3,9 @@ import { GPTResponse } from '../Models/gptModels';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, catchError, firstValueFrom, throwError } from 'rxjs';
 import { itineraryInfo } from '../Models/ItineraryInfoModel';
+import { environment } from '../../environments/environment';
+
+const URL = environment.url;
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +30,7 @@ export class ItineraryService {
   {
     let param = new HttpParams();
     param = param.set('prompt',prompt)
-    return this.http.get<GPTResponse>('api/GPT/insertPrompt',{params:param})
+    return this.http.get<GPTResponse>(`${URL}/api/GPT/insertPrompt`,{params:param})
     .pipe(
       catchError((err)=> 
       this.handleError(err)
@@ -43,7 +46,7 @@ export class ItineraryService {
     let param = new HttpParams();
     param = param.set('username',username).set('title',itineraryTitle).set('startDate',startDate).set('endDate',endDate);
 
-    return this.http.post<string>('api/insertItinerary',itinerary,{params:param})
+    return this.http.post<string>(`${URL}/api/insertItinerary`,itinerary,{params:param})
     
   }
 
@@ -53,7 +56,7 @@ export class ItineraryService {
 
     param = param.set('email',email);
 
-    return this.http.get<itineraryInfo[]>('api/getItineraryInfo',{params:param})
+    return this.http.get<itineraryInfo[]>(`${URL}/api/getItineraryInfo`,{params:param})
 
   }
 
@@ -61,7 +64,7 @@ export class ItineraryService {
   {
 
 
-    return this.http.get<GPTResponse>(`api/getItinerary/${itineraryID}`)
+    return this.http.get<GPTResponse>(`${URL}/api/getItinerary/${itineraryID}`)
 
   }
 

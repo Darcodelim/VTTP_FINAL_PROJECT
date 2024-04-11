@@ -50,6 +50,7 @@ import vttp.finalProject.Model.GPT.GPTResponse;
 
 @Service
 public class googleCalendarService {
+
     @Value("${google.client.id}")
     private String clientId;
 
@@ -59,8 +60,6 @@ public class googleCalendarService {
     @Value("${google.client.redirectUri}")
     private String redirectURI;
 
-    @Value("${google.client.API.KEY}")
-    private String API_KEY;
 
     @Value("${Base.URL}")
     private String baseURL;
@@ -68,6 +67,7 @@ public class googleCalendarService {
     RestTemplate restTemplate = new RestTemplate();
 
     private final static Log logger = LogFactory.getLog(googleCalendarService.class);
+
 	private static final String APPLICATION_NAME = "Final Project Google Calendar";
 	private static HttpTransport httpTransport;
 	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
@@ -101,7 +101,6 @@ public class googleCalendarService {
 
     public boolean getToken(String code,String username){
 
-        String message;
 
         System.out.printf("Username:%s",username);
     try {
@@ -110,6 +109,7 @@ public class googleCalendarService {
         System.out.println(response);
         //The userID can be stated by you, maybe use the email username as the ID
         credential = flow.createAndStoreCredential(response,username);
+        
 
         
         client = new Calendar.Builder(httpTransport, JSON_FACTORY, credential)

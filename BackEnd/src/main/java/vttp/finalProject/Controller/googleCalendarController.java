@@ -112,7 +112,7 @@ public class googleCalendarController {
     @GetMapping(value = "/oauth2/verifyFail")
     public ResponseEntity<String> verifyFail()
     {
-        return ResponseEntity.ok().body("Fail authentication");
+        return ResponseEntity.ok().body("Fail Authentication");
     }
 
     @GetMapping(value = "/oauth2/verifyPass")
