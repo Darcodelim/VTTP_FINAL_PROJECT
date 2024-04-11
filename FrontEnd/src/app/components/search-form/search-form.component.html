@@ -7,10 +7,17 @@
     <title>Search</title>
 </head>
 <body>
+    <div class="container d-flex justify-content-center ">
+        <p class="title">Discover the World, Discover Yourself!</p>
+      
+    
+    </div>
     
     <div class="container h-100 d-flex justify-content-center align-items-center ">
-        <form [formGroup]="formGroup" class="side-by-side-form" (ngSubmit)="onSubmit()">
-
+        <div class="row">
+        <div class="container form">
+        <form [formGroup]="formGroup"  (ngSubmit)="onSubmit()">
+            <div class="row">
             <mat-form-field >
                 <mat-label>Enter a date range</mat-label>
                 <mat-date-range-input [rangePicker]="rangePicker" [min]="minDate">
@@ -25,9 +32,13 @@
                     <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
                   </mat-date-range-picker-actions>
                 </mat-date-range-picker>
+                <mat-error *ngIf="formGroup.get('startDate')?.hasError('required') || formGroup.get('endDate')?.hasError('required')">Date Range is required</mat-error>
               </mat-form-field>
+            </div>
 
+            <div class="row">
             <mat-form-field>
+         
             <mat-label>
                 Countries
             </mat-label>
@@ -37,9 +48,10 @@
                 {{country}}
                 </mat-option>
             </mat-autocomplete>
+            <mat-error *ngIf="formGroup.get('country')?.hasError('required') ">Country is required</mat-error>
             </mat-form-field>
-
-
+            </div>
+            <div class="row">
             <mat-form-field>
                 <mat-label>
                     Region
@@ -50,9 +62,11 @@
                     {{region}}
                     </mat-option>
                 </mat-autocomplete>
+                <mat-error *ngIf="formGroup.get('region')?.hasError('required') ">Region is required</mat-error>
             </mat-form-field>
-
+             </div>
             
+             <div class="row">
             <mat-form-field *ngIf="includeCityMunicipal">
                 <mat-label>
                     City/Municipal
@@ -63,18 +77,21 @@
                     {{city}}
                     </mat-option>
                 </mat-autocomplete>
+                <mat-error *ngIf="formGroup.get('municipal')?.hasError('required') ">City/Municipal is required</mat-error>
             </mat-form-field>
-
+                 </div>
   
-            <button type="submit" class="btn btn-dark" [disabled]="formGroup.invalid" >LFG</button>
 
-            
             <section class="checkbox">
-                <mat-checkbox class="example-margin" [color]="'primary'" (change)="toggleCityMunicipal($event.checked)">Include city/municipal</mat-checkbox>
-
-              </section>
+                <mat-checkbox class="example-margin" [color]="'primary'" (change)="toggleCityMunicipal($event.checked)">Include City/Municipal</mat-checkbox>
+            </section>
+            <div class="row">
+              <button type="submit" class="submit btn btn-dark" [disabled]="formGroup.invalid" >LFG</button>
+            </div>
 
         </form>
     </div>
+</div>
+</div>
 </body>
 </html>

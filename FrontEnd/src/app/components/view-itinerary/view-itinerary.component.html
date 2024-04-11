@@ -7,74 +7,84 @@
 </head>
 <body>
     <app-loading-spinner *ngIf="showLoading$ | async"></app-loading-spinner>
-    <!-- <h2>GPT Response</h2> -->
+  
 
-    <div class="container">
-        <div class="row border">
-            <div class="col-10 border" ><span>Title: {{Title}}</span></div>
-            <div class="col-2 border"><button class="btn btn-light" (click)="openDialog()">Add/Change Title</button></div>
+    <div class="container  justify-content-center align-items-center main ">
+        <div *ngIf="mongoResponse$ | async as Response; else noReponse">
+            <div class="row fixed justify-content-center ">
+                <!-- <div class="container fixed"> -->
+        
+                    <div class="row">
+                        <div class="col-10 title" ><span>Title: {{Title}}</span></div>
+                        <div class="col-2 d-flex justify-content-end"><button class="btn btn-light change-title" (click)="openDialog()">Add/Change Title</button></div>
+            
+                        <div *ngIf="Response.Activities.length>0">
+
+                            <div class="row title">
+                                <div class="col-6 ">Start Date: <span>{{Response.Start_Date}}</span></div>
+                                <div class="col-6 ">End Date: <span>{{Response.End_Date}}</span></div>
+                            </div>
+
+                            <div class="row title">
+                                    <div class="col-6 ">Country: <span>{{Response.Country}}</span></div>
+                                    <div class="col-6 ">Region: <span>{{Response.Region}}</span></div>
+                            </div>
+
+                            <div class="row justify-content-center">
+                                       <div class="col d-flex justify-content-center duration">{{Response.Duration}}</div>
+                            </div>
+                            <div class="container  content-wrapper  ">
+                                <div *ngFor = "let a of Response.Activities; let i = index" >
+                                        <div class="row outer mt-3 ">
+                                            <div class =" col-xl  order-md-1' ">
+                                                <div class="row h-100 ">
+                                                    <div class="col  order-xl-last ">
+                                                        <div class="">
+                                                            <div class="location"> {{a.Location}}</div>
+                                                            <div class="container highlights-box ">
+                                                                <div class="highlights">
+                                                                    <div class="highlights-word ">Highlights:</div>
+                                                                    <div class="highlights-group container.m0  justify-content-center "><div class="highlights-list " *ngFor="let h of a.Highlights">{{h}}</div></div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col d-flex flex-column col-xl-3 justify-content-center align-items-center">
+                                                        <div class="day">{{a.Day}}</div>
+                                                        <div class="date">{{a.Date}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                
+                                            <div class="col col-lg-5  order-md-2 d-flex justify-content-end ">
+                                                <!-- for image -->
+                                                <div *ngIf="a.Image">
+                                                    <img  class="Image" [src]="a.Image">
+                                                </div>
+
+                                                <div *ngIf="!a.Image">
+                                                    <img class="Image" src="https://cpworldgroup.com/wp-content/uploads/2021/01/placeholder-1024x683.png">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- </div> -->
+            </div>
+
+            <div class="row button">
+                <div class="col-10 "></div>
+                <div class="col-2  d-flex justify-content-end Save"><button class=" btn btn-secondary" (click)="Save()">Save</button></div>
+            </div>
         </div>
-        
-    <div *ngIf="mongoResponse$ | async as Response; else noReponse">
-        <!-- <div *ngIf="GPTresponse$ | async as Response; "> -->
-            
-
-        <div *ngIf="Response.Activities.length>0">
-
-            <div class="row border">
-                <div class="col-6">Start Date:<span>{{Response.Start_Date}}</span></div>
-                <div class="col-6">End Date:<span>{{Response.End_Date}}</span></div>
-            </div>
-
-            <div class="row border">
-                    <div class="col-6">Country:<span>{{Response.Country}}</span></div>
-                    <div class="col-6">Region:<span>{{Response.Region}}</span></div>
-                   
-            </div>    
-        
-            <div class="row border border-primary justify-content-center">
-                        Duration:{{Response.Duration}}
-            </div>
-
-            <!-- Treat the whole activity as a row -->
-            
-<!--         
-            Activities: -->
-            
-            <div *ngFor = "let a of Response.Activities; let i = index" class="grid  row-gap-5 border border-primary">
-            <div class="mt-1 row border border-danger">
-            <div class =" col-6 border {{ i % 2 === 0 ? 'order-md-2' : 'order-md-1' }}">
-                <div>{{i}}</div>
-                <div>Day:{{a.Day}}</div>
-                <div>Date:{{a.Date}}</div>
-                <div>Location:{{a.Location}}</div>
-                <div>Highlights:     <div *ngFor="let h of a.Highlights">
-                    {{h}}
-                    </div></div>
-           
-
-                </div>
-                <div class="col-6 border  {{ i % 2 === 0 ? 'order-md-1' : 'order-md-2' }}">
-                    <!-- for image -->
-                    <div>Image:{{a.Image}}</div>
-                </div>
-            
-           
-            </div>   
-        
-            </div>
-        </div>
-    </div>
-
-    <div class="row border">
-        <div class="col-10 border"></div>
-        <div class="col-2 border"><button class="btn btn-secondary" (click)="Save()">Save</button></div>
-    </div>
-    <ng-template #noReponse>
-        No data
-    </ng-template>
 </div>
-
+<ng-template #noReponse>
+</ng-template>
 
 
 </body>

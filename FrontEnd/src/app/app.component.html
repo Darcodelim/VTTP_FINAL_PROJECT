@@ -1,9 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- <app-navbar *ngIf="this.loginStatus"></app-navbar> -->
+
 <app-navbar></app-navbar>
-<!-- <div class="alert alert danger" role="alert" *ngIf="errorMessage|async as error">{{error}}</div> -->
+
+
+
 <div class="container">
-    <div class="alert alert-danger" role="alert" *ngIf="errorMessage| async as error">{{error}}</div>
+    <div class="alert alert-danger" role="alert" *ngIf="errorMessage$| async as error">{{error}}</div>
 </div>
 
 <router-outlet></router-outlet>
+    
+</body>
+</html>
+
+
 
 

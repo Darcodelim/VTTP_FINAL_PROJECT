@@ -6,8 +6,9 @@ import { LoginState, loginErrorState } from "../components/Authentication/state/
 import { dialogReducer } from "../components/dialog-title-form/state/dialog.reducer";
 import { DIALOG_TITLE_STATE_NAME } from "../components/dialog-title-form/state/dialog.selector";
 import { dialogTitleState } from "../components/dialog-title-form/state/dialog.state";
-import { AuthorizationReducer } from "../components/google-calendar/state/googleCalendar.reducer";
-import { Authorization_STATE_NAME } from "../components/google-calendar/state/googleCalendar.selector";
+import { AuthorizationReducer, googleSigningInReducer } from "../components/google-calendar/state/googleCalendar.reducer";
+import { Authorization_STATE_NAME,GOOGLE_SIGNING_IN_STATE_NAME } from "../components/google-calendar/state/googleCalendar.selector";
+import { googleSigningInState} from "../components/google-calendar/state/googleCalender.state";
 import { gptReducer } from "../components/gpt/state/gpt.reducer";
 import { GPT_STATE_NAME } from "../components/gpt/state/gpt.selector";
 import { gptState } from "../components/gpt/state/gpt.state";
@@ -36,6 +37,7 @@ export interface AppState
     [ITINERIES_LIST_STATE_NAME]:itineriesListState
     [VIEW_ITINERARY_STATE_NAME]:viewItineraryState
     [Authorization_STATE_NAME]:authorizationStatus
+    [GOOGLE_SIGNING_IN_STATE_NAME]:googleSigningInState
 }
 
 export const appReducer = {
@@ -49,5 +51,6 @@ export const appReducer = {
     [DIALOG_TITLE_STATE_NAME]:dialogReducer,
     [ITINERIES_LIST_STATE_NAME]:itineraryListReducer,
     [VIEW_ITINERARY_STATE_NAME]:mongoItineraryReducer,
-    [Authorization_STATE_NAME]:AuthorizationReducer
+    [Authorization_STATE_NAME]:AuthorizationReducer,
+    [GOOGLE_SIGNING_IN_STATE_NAME]:googleSigningInReducer
 }

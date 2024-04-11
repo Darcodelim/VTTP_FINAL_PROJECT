@@ -4,7 +4,7 @@ import { googleCalendarService } from "../../../Services/googleCalendar.service"
 import { Store, select } from "@ngrx/store"
 import { AppState } from "../../../store/app.state"
 import { Router } from "@angular/router"
-import { catchError, exhaustMap, interval, map, of, take, takeWhile, tap, withLatestFrom } from "rxjs"
+import { EMPTY, catchError, exhaustMap, filter, iif, interval, map, mergeMap, of, switchMap, take, takeWhile, tap, withLatestFrom } from "rxjs"
 import { getAuthorizationStatus, updateAuthorizationStatus } from "./googleCalender.action"
 import { getAuthorizationState } from "./googleCalendar.selector"
 import { LogOut } from "../../shared/state/shared.action"
@@ -21,52 +21,25 @@ constructor(private actions$:Actions, private googleCalSvc:googleCalendarService
 }
 
 
-getAuthorization$ = createEffect(():any =>{
-
-    return this.actions$.pipe(ofType(getAuthorizationStatus),withLatestFrom(this.store.pipe(select(getAuthorizationState))),
-    exhaustMap(([action,verify])=>{
-        const username = action.username;
-        return interval(5000).pipe(
-            takeWhile(() => !verify), // use the value from the store
-            exhaustMap(() =>
-              this.googleCalSvc.verifyAuthorization(username).pipe(
-                map(response => {
-                  // Dispatch action to update authorization status in the store
-                  return updateAuthorizationStatus({ authorizationStatus: response.authorizationStatus });
-                }),
-                catchError((error)=>{
-
-                    console.log(error)
-
-                    return of(updateAuthorizationStatus({authorizationStatus:false}))
-                }),
-            
-            
-                )
-                
-                
-                ),take(3)
-                
-                )
-
-    })
-    
-    )
+ 
+// logOut$ = createEffect(
+//     ()=>{
+//         return this.actions$.pipe(ofType(LogOut),withLatestFrom(this.store.pipe(select(getAuthorizationState)) 
+//         // https://stackoverflow.com/questions/73864052/angular-ngrx-state-update-synchronously
+//         //Because of this fetching of data from the store, it has become async. thus the state changed first before when the effect is executed
+//         ),tap(([action,verify])=>{console.log('Verify: ',verify)}),
+//         mergeMap(([action,verify])=>iif(
+//           ()=>(verify === true),
    
-})
-
- 
-logOut$ = createEffect(
-    ()=>{
-        return this.actions$.pipe(ofType(LogOut),exhaustMap(()=>
-        {
-            return this.googleCalSvc.revokeToken().pipe(
-            tap((status)=>{
-                    console.log(status)
-                    
-                }))
-        }))
-    }, {dispatch:false}
-)
+//              this.googleCalSvc.revokeToken().pipe(
+//                 tap((status)=>{
+//                         console.log(status)
+//                     })
+//                 ),of(console.log(verify))
+//         )))
+//     }, {dispatch:false}
+// )
  }
- 
+
+ //Thus I have to do it manually at the navbar component
+

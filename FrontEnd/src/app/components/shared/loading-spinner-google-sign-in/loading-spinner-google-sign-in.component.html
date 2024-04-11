@@ -1,0 +1,18 @@
+<div class="backdrop">
+<div class="loading-spinner">
+
+<div class="lds-ring">
+
+    <div></div><div></div><div></div><div></div></div>
+<div id="countdown">{{countdownSeconds}}</div>
+<div *ngIf=!signInFail>Sigining In</div>
+<div *ngIf=signInFail>Sign in Fail</div>
+
+</div>
+
+<button *ngIf=signInFail type="button" (click)="close()" class="btn-close">  <span class="icon-cross"></span>
+</button>
+
+</div>
+
+

@@ -1,0 +1,9 @@
+app-navbar{
+position:relative;
+z-index: 100;
+}
+
+body{
+    background: 100vh;
+}
+

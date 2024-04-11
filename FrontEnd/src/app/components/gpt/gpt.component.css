@@ -1,5 +1,166 @@
 body{
     background-image:linear-gradient(to bottom,#81beff,#E7F7EC) ;
     background-size:cover;
-    min-height:100vh;
+    margin:0;
+    padding:0;
+    overflow-y: auto;
+    min-height:110vh;
+    display:flex;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.container.main{
+    position:relative;
+    height:910px;
+    width:3000px;
+    top:75px;
+    background-color:rgba(0, 0, 255, 0);
+
+}
+
+
+.row.fixed{
+    position:relative;
+    background-color: rgba(255, 255, 255, 0.515);
+    padding:20px;
+    border-radius: 8px;
+    box-sizing: border-box;
+
+}
+
+.change-title{
+    font-weight: 500;
+}
+
+
+
+.content-wrapper{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    position:relative;
+    max-width:1253px;
+    width:102%;
+    right:11px;
+    height:700px;
+    padding-bottom: 10px;
+
+
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.row.outer{
+
+    background-color: rgba(255, 228, 196, 0.69);
+    padding-top:10px;  /*Use padding to still allow reponsive design to take place*/
+    padding-bottom:10px;
+    border-radius: 25px;
+    margin:0px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.77);
+}
+
+
+
+.grid{
+    position:relative;
+    right:12px;
+    width:1254px
+
+}
+.title{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.duration{
+    position:relative;
+    top:5px;
+    font-size: 30px;
+    font-weight: bolder;
+
+}
+
+.words{
+    
+    text-align: left;
+}
+
+.Image{
+    width:380px;
+    height:225px;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.288); /* Adjust shadow color and size */
+}
+
+.day{
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.location{
+    background-color: rgba(234, 240, 246,0.873);
+
+    position:relative;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 500;
+    border-radius: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.101)
+
+
+}
+.highlights-box{
+    background-color: rgba(234, 240, 246,0.873);
+    
+    position:relative;
+    top:10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.164);
+    min-height:180px;
+    height:auto;
+
+    
+}
+
+.highlights{
+
+    position:relative;
+    top:10px;
+
+    /* min-height:170px; */
+    
+  
+}
+
+
+.highlights-word{
+    font-size: 18px;
+    font-weight: 500;
+}
+.highlights-group{
+    min-height:143px;
+    height:auto;
+    display:flex;
+    flex-direction: column;
+
+
+}
+
+.highlights-list{
+    display:flex;
+    justify-content:center;
+    
+    font-size: 17px;
+    margin:5px;
+}
+
+.row.button{
+    position:relative;
+    top:10px;
+}
+
+.Save{
+
+    margin:0;
+    padding:0;
 }

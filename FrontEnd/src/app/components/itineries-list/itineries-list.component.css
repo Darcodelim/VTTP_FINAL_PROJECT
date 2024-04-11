@@ -1,7 +1,30 @@
 table {
-    width: 100%;
 
-  }
+    width: 100%;
+    position:relative;
+    top:100px;
+
+}
+th{
+  text-align: center;
+}
+mat-sort-header{
+  text-align: center;
+}
+body{
+
+  background-image: url(../itineries-list/images/jonathan-roger-LY1eyQMFeyo-unsplash.jpg);
+
+  background-size:cover ;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  overflow: hidden;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
 .center
 {
     margin-left:auto;

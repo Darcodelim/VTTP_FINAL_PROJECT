@@ -1,12 +1,12 @@
 
-  <nav class="navbar navbar-expand-lg navbar-light" >
+  <nav class="navbar navbar-expand-lg navbar-light border" >
     <div class="container-fluid">
-      <a class="navbar-brand" href="#" [routerLink]="['/search']">Itinerary Generator</a>
+      <a class="navbar-brand logo" href="#" [routerLink]="['/search']"><img src="/assets/images/TravelLogo.png" alt="Travel Logo"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+      <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#" [routerLink]="['/search']">Create</a>
           </li>
@@ -14,14 +14,15 @@
             <a class="nav-link"  href="#" [routerLink]="['/itineraryList']">Itineraries</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link"  href="#" [routerLink]="['/calendar']">Calendar</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" (click)="logOut()">Logout</a>
+            <a class="nav-link"  href="#" [routerLink]="['/calendar']">Add Event</a>
           </li>
 
         </ul>
+          <ul class="navbar-nav ms-auto">
+          <li class="nav-item ">
+            <a class="nav-link" (click)="logOut()">Logout</a>
+          </li>
+          </ul>
       </div>
     </div>
   </nav>

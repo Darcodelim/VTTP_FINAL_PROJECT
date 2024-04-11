@@ -61,7 +61,6 @@ export class ViewItineraryComponent {
   {
     
     this.showLoading$ = this.store.select(getLoading)
-    // this.GPTresponse$=this.itinerarySvc.getGptResponse(this.prompts)
 
     //Title
     this.title$=this.store.select(getTitle)
@@ -72,7 +71,12 @@ export class ViewItineraryComponent {
       }
     }
 
-   )
+     
+    )
+
+  //  this.mongoResponse$ =  this.itinerarySvc.getItinerary("660e7d0d20b9890d42188ac1");
+
+  
 
     //LoginState
     this.loginState$=this.store.select(isLoginRegistered)

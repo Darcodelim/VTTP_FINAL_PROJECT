@@ -144,6 +144,8 @@ export class GPTComponent implements OnInit,OnDestroy {
         this.showLoading$ =this.store.select(getLoading)
       }
 
+      // this.GPTresponse$=this.itinerarySvc.getItinerary("660e7d0d20b9890d42188ac1");
+
       // this.prompts="create a 4 day itinerary for Japan,Hokkaido from 29/03/2024-01/04/2024"
 
       //   this.store.dispatch(sendPrompt({prompt:this.prompts}))

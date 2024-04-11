@@ -7,6 +7,7 @@ import { SignUpComponent } from './components/Authentication/sign-up/sign-up.com
 import { ItineriesListComponent } from './components/itineries-list/itineries-list.component';
 import { ViewItineraryComponent } from './components/view-itinerary/view-itinerary.component';
 import { GoogleCalendarComponent } from './components/google-calendar/google-calendar.component';
+import { LoadingSpinnerGoogleSignInComponent } from './components/shared/loading-spinner-google-sign-in/loading-spinner-google-sign-in.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path:"itineraryList",component:ItineriesListComponent},
   {path:"viewItinerary",component:ViewItineraryComponent},
   {path:"calendar",component:GoogleCalendarComponent},
+  {path:"loadingSpinner",component:LoadingSpinnerGoogleSignInComponent},
   {path:'**',redirectTo:'/',pathMatch:'full'}
 ];
 

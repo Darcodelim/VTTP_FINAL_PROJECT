@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { googleCalendarService } from '../../Services/googleCalendar.service';
-import { Observable, Subscription, interval, map, takeWhile } from 'rxjs';
+import { Observable, Subscription, interval, map, take, takeWhile } from 'rxjs';
 import { AppState } from '../../store/app.state';
 import { Store } from '@ngrx/store';
 import { LoginState } from '../Authentication/state/auth.state';
 import { isLoginRegistered } from '../Authentication/state/auth.selector';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { eventFormFormat } from '../../Models/googleCalendarModels';
-import { getAuthorizationState } from './state/googleCalendar.selector';
-import { getAuthorizationStatus } from './state/googleCalender.action';
+import { getAuthorizationState, getGoogleSigningInState } from './state/googleCalendar.selector';
+import { getAuthorizationStatus, updateAuthorizationStatus, updateGoogleSigningInStatus } from './state/googleCalender.action';
 
 @Component({
   selector: 'app-google-calendar',
@@ -22,12 +22,14 @@ export class GoogleCalendarComponent implements OnInit,OnDestroy{
     //Observable
     loginState$!:Observable<LoginState>
     authorization$!:Observable<boolean>
+    googleSigningIn$!:Observable<boolean>
 
     //Subscriptions
     authorizationStatusSub!:Subscription;
     loginStateSub!:Subscription;
     verifySub!:Subscription
     authorizationLinkSub!:Subscription;
+    googleSigningInSub!:Subscription;
 
     //Form
     eventForm!:FormGroup;
@@ -35,6 +37,7 @@ export class GoogleCalendarComponent implements OnInit,OnDestroy{
     //Variables
     link!:string;
     verify:boolean = false;
+    googleSigningIn!:boolean;
     authWindow!: Window|null; 
     username!:string
     minDate!:Date;
@@ -54,6 +57,14 @@ export class GoogleCalendarComponent implements OnInit,OnDestroy{
        )
 
       }
+      else{
+        this.store.dispatch(updateGoogleSigningInStatus({signingInStatus:false}))
+       }
+
+      this.googleSigningIn$ =  this.store.select(getGoogleSigningInState)
+      this.googleSigningInSub = this.googleSigningIn$.subscribe((status)=>{
+        this.googleSigningIn = status;
+      })
 
     }
 
@@ -101,7 +112,7 @@ export class GoogleCalendarComponent implements OnInit,OnDestroy{
   }
 
   ngOnDestroy(): void {
-    // this.authorizationStatusSub.unsubscribe();
+    this.authorizationStatusSub?.unsubscribe();
     this.loginStateSub.unsubscribe();
     this.verifySub.unsubscribe();
 
@@ -116,7 +127,28 @@ export class GoogleCalendarComponent implements OnInit,OnDestroy{
         // Redirect to Google Sign-in URL
         // window.location.href = this.link;
         this.authWindow = window.open(this.link, '_blank');
-        this.store.dispatch(getAuthorizationStatus({username:this.username}));
+
+        this.store.dispatch(updateGoogleSigningInStatus({signingInStatus:true}))
+
+        //need to set a signing in loading page for 15 seconds.
+
+        this.authorizationStatusSub = interval(5000).pipe( takeWhile(()=>!this.verify),take(3)).subscribe(()=>
+   
+        this.googleCalSvc.verifyAuthorization(this.username).subscribe({
+
+          next:response=>{
+            this.store.dispatch(updateAuthorizationStatus({authorizationStatus:response.authorizationStatus}))
+            this.store.dispatch(updateGoogleSigningInStatus({signingInStatus:false}))
+          },
+
+          error:err=>{
+            this.store.dispatch(updateAuthorizationStatus({authorizationStatus:err.error.authorizationStatus}))
+            console.error(err)
+          }
+        
+          }))
+
+
 
       } else {
         console.error("Google Sign-in URL is not available.");

@@ -1,3 +1,9 @@
+body{
+  /* min-height:100vh; */
+  height:100vh;
+}
+
+
 .top-bottom-form{
     display:flex;
     flex-direction: column;

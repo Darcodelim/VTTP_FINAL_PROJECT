@@ -1,9 +1,35 @@
 .navbar{
-    background-image:linear-gradient(to bottom ,#2DA0FA,#81beff) ;
-
+        background-color: rgba(255, 255, 255, 0.729); /* Fully transparent background */
+        padding: 10px;
+        /* Prevents a gap in the webpage */
+        position: fixed; 
+        width: 100%; 
+        top: 0;
+    
 }
 
 nav{
-    font-family:comic sans ms;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
     font-weight:bold;
 }
+
+/* img{
+
+    width:100px;
+    height:100px
+
+} */
+
+.logo
+{   
+
+    
+    padding:0;
+    margin:0;
+}
+
+img{
+    display:block;
+    width:75px;
+}
+

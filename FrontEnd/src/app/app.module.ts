@@ -32,6 +32,7 @@ import { ViewItineraryComponent } from './components/view-itinerary/view-itinera
 import { viewItineraryEffects } from './components/view-itinerary/state/viewItineraryeffects';
 import { GoogleCalendarComponent } from './components/google-calendar/google-calendar.component';
 import { googleAuthEffects } from './components/google-calendar/state/googleCalendar.effects';
+import { LoadingSpinnerGoogleSignInComponent } from './components/shared/loading-spinner-google-sign-in/loading-spinner-google-sign-in.component';
 
 
 
@@ -48,7 +49,8 @@ import { googleAuthEffects } from './components/google-calendar/state/googleCale
     DialogNoTitleComponent,
     ItineriesListComponent,
     ViewItineraryComponent,
-    GoogleCalendarComponent
+    GoogleCalendarComponent,
+    LoadingSpinnerGoogleSignInComponent
 
   ],
   imports: [
