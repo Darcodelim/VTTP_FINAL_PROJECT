@@ -72,7 +72,7 @@ export class ItineraryService {
   deleteItinerary(itineraryID:string)
   {
 
-    return this.http.delete<string>(`api/deleteItinerary/${itineraryID}`)
+    return this.http.delete<string>(`${URL}/api/deleteItinerary/${itineraryID}`)
 
   }
 
@@ -80,7 +80,7 @@ export class ItineraryService {
   {
     const requestBody = {title:title};
 
-    return this.http.patch(`api/editItineraryTitle/${itineraryID}`,requestBody)
+    return this.http.patch(`${URL}/api/editItineraryTitle/${itineraryID}`,requestBody)
   }
 
 

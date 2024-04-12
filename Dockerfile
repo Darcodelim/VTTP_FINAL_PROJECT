@@ -5,11 +5,12 @@ WORKDIR /ngapp
 #Install Angular
 RUN npm i -g @angular/cli
 
-COPY FrontEnd/package*.json .
+COPY frontend/package*.json .
 # COPY frontend/package-lock.json .
-COPY FrontEnd/angular.json .
-COPY FrontEnd/tsconfig.* .
-COPY FrontEnd/src src
+COPY frontend/ngsw-config.json .
+COPY frontend/angular.json .
+COPY frontend/tsconfig.* .
+COPY frontend/src src
 
 #Installing node_modules from looking at package-lock.json, else "npm i" would install all the modules based on package.json which is the latest package which we do not wish to have that as it changes everytime
 #ng build would only run if npm ci ran
@@ -27,14 +28,14 @@ WORKDIR /sbapp
 
 #Everything after this is in /app
 # "." at the back adds everything from the current directory to the WORKDIR with the exact name
-COPY BackEnd/mvnw .
-COPY BackEnd/mvnw.cmd .
-COPY BackEnd/pom.xml .
+COPY backend/mvnw .
+COPY backend/mvnw.cmd .
+COPY backend/pom.xml .
 
-COPY BackEnd/.mvn .mvn
-COPY BackEnd/src src
+COPY backend/.mvn .mvn
+COPY backend/src src
 # the output location was changed during building:/ngapp/dist/front-end
-COPY --from=ng-builder /ngapp/dist/front-end/browser /src/main/resources/static
+COPY --from=ng-builder /ngapp/dist/frontend/browser/  /sbapp/src/main/resources/static
 #Build the application
 RUN mvn package -Dmaven.test.skip=true
 
@@ -67,7 +68,7 @@ ENV OPENAI_API_URL=
 ENV BASE_URL=
 ENV GOOGLE_CLIENT_ID=
 ENV GOOGLE_CLIENT_SECRET=
-ENV GOOGLE_CLIENT_REDIRECTURI=
+ENV GOOGLE_CLIENT_REDIRECT=
 
             
 # Expose the port so that it could be run on this port on your local computer when calling docker container run -d -p (8080):3050, as PORT in the environment variable is only an object, it must be referenced

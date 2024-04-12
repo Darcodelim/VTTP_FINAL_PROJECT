@@ -33,6 +33,8 @@ import { viewItineraryEffects } from './components/view-itinerary/state/viewItin
 import { GoogleCalendarComponent } from './components/google-calendar/google-calendar.component';
 import { googleAuthEffects } from './components/google-calendar/state/googleCalendar.effects';
 import { LoadingSpinnerGoogleSignInComponent } from './components/shared/loading-spinner-google-sign-in/loading-spinner-google-sign-in.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+
 
 
 
@@ -63,7 +65,12 @@ import { LoadingSpinnerGoogleSignInComponent } from './components/shared/loading
       trace: false, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
       traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
       connectInZone: true // If set to true, the connection is established within the Angular zone
-    }),MaterialModuleModule,ReactiveFormsModule
+    }),MaterialModuleModule,ReactiveFormsModule, ServiceWorkerModule.register('ngsw-worker.js', {
+  enabled: !isDevMode(),
+  // Register the ServiceWorker as soon as the application is stable
+  // or after 30 seconds (whichever comes first).
+  registrationStrategy: 'registerWhenStable:30000'
+})
   ],
   providers: [ItineraryService, provideAnimationsAsync(),CountryService],
   bootstrap: [AppComponent]

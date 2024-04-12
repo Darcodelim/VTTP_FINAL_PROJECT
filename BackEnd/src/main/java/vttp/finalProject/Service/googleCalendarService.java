@@ -57,7 +57,7 @@ public class googleCalendarService {
     @Value("${google.client.secret}")
     private String clientSecret;
 
-    @Value("${google.client.redirectUri}")
+    @Value("${google.client.redirect}")
     private String redirectURI;
 
 
