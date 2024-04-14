@@ -3,17 +3,61 @@ table {
     width: 100%;
     position:relative;
     top:100px;
+    border-collapse:separate;
+
 
 }
-th{
-  text-align: center;
+
+
+:host ::ng-deep .mat-sort-header-container {
+  display:flex;
+  justify-content:center;
 }
-mat-sort-header{
-  text-align: center;
+ .mat-mdc-header-cell{
+
+  text-align: center!important;
 }
+.mat-mdc-cell{
+  text-align:center;
+}
+.No{
+  position:relative;
+  right: 2px;
+}
+.title{
+  position:relative;
+  right:0px;
+}
+
+
+.mat-column-action {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 25% !important;
+  width: 25% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.mat-mdc-row:nth-child(even){
+  background-color: rgba(238, 237, 237, 0.795);
+}
+.calendarButton{
+
+  position:relative;
+  margin-left: 10px;
+}
+
+
 body{
 
-  background-image: url(../itineries-list/images/jonathan-roger-LY1eyQMFeyo-unsplash.jpg);
+  background-image: url("/assets/images/jonathan-roger-LY1eyQMFeyo-unsplash.jpg");
 
   background-size:cover ;
   background-position: center;

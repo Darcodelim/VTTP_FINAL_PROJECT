@@ -39,10 +39,12 @@ public class googleCalendarController {
     @GetMapping(value = "/oauth2/authorize")
 	public ResponseEntity<String> googleConnectionStatus() throws Exception {
 
-            JsonObject authorizationURL = Json.createObjectBuilder().add("authorizationURL" ,gcSvc.authorize()).build();
+            String authorizationURLSvc = gcSvc.authorize();
+
+            JsonObject authorizationURL = Json.createObjectBuilder().add("authorizationURL" ,authorizationURLSvc).build();
         
             // return new RedirectView(gcSvc.authorize());
-
+            System.out.println(authorizationURLSvc);
              return ResponseEntity.ok(authorizationURL.toString());
 
         }
@@ -96,29 +98,35 @@ public class googleCalendarController {
             System.out.println(startDate);
             System.out.println(endDate);
 
-            try {
-                gcSvc.setCalendarEvent(itineraryTitle, startDate, endDate);
-            } catch (Exception e) {
-                
-                    e.printStackTrace();
-                    JsonObject ErrorJson = Json.createObjectBuilder().add("Error","Unable to add event").build();
-                    return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorJson.toString());
+
+            Boolean addStatus = gcSvc.setCalendarEvent(itineraryTitle, startDate, endDate);
+            
+            if(addStatus)
+            {
+                JsonObject status = Json.createObjectBuilder().add("Status","Event Added Successfully").build();
+                return ResponseEntity.ok().body(status.toString());
+            }
+            else{
+                JsonObject ErrorJson = Json.createObjectBuilder().add("Error","Unable To Add Event").build();
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorJson.toString());
 
             }
-            JsonObject status = Json.createObjectBuilder().add("Status","Event added successfully").build();
-            return ResponseEntity.ok().body(status.toString());
+                
+
+            
+
         }
 
     @GetMapping(value = "/oauth2/verifyFail")
     public ResponseEntity<String> verifyFail()
     {
-        return ResponseEntity.ok().body("Fail Authentication");
+        return ResponseEntity.ok().body("Fail Authentication, you may close this window and re-login");
     }
 
     @GetMapping(value = "/oauth2/verifyPass")
     public ResponseEntity<String> verifyPass()
     {
-        return ResponseEntity.ok().body("Authentication Pass");
+        return ResponseEntity.ok().body("Authentication Pass, you may close this window");
     }
 
 

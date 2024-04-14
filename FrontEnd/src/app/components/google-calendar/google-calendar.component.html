@@ -24,11 +24,10 @@
           <div class="container d-flex justify-content-center">
         <button class="login-with-google-btn"(click)="redirectToGoogleSignIn()" >Google Calendar Sign in</button>
         <app-loading-spinner-google-sign-in *ngIf=googleSigningIn></app-loading-spinner-google-sign-in>
-       
-         <!-- <div>{{link}}</div>  -->
-           <!-- <p>{{verify?'True':'False'}}</p>  -->
+
       </div>
       </div>
+
       <!-- verify -->
       <div class="row d-flex justify-content-center  align-items-center" *ngIf=verify>
       
@@ -67,6 +66,9 @@
               </div>
             </div>
               <div class="row"><button type="submit" class="submitButton btn btn-dark" [disabled]="eventForm.invalid" >Add Event</button></div>
+
+              <div *ngIf="showSuccessMessage" class="row eventSuccessFail alert alert-success"><div class="container text" role="alert" >{{EventStatusSuccess}}</div></div>
+              <div *ngIf="showFailMessage" class="row eventSuccessFail alert alert-danger"><div class="container text" role="alert" >{{EventStatusFail}}</div></div>
             </form>
           </div>
         </div>

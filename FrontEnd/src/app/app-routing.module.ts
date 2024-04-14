@@ -10,8 +10,10 @@ import { GoogleCalendarComponent } from './components/google-calendar/google-cal
 import { LoadingSpinnerGoogleSignInComponent } from './components/shared/loading-spinner-google-sign-in/loading-spinner-google-sign-in.component';
 
 
+
 const routes: Routes = [
   {path:"",component:LoginComponent},
+
   {path:"signUp",component:SignUpComponent},
   {path:"search",component:SearchFormComponent},
   {path:"itinerary",component:GPTComponent},

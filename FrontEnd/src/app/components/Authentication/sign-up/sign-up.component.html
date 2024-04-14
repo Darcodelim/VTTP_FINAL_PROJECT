@@ -7,7 +7,12 @@
     <title>Document</title>
 </head>
 <body>
+  <div>
+    <img [@imageState]="imageState" [src]="currentImageUrl" class="background-image" />
+  </div>
+  
     <div class="container h-100 d-flex justify-content-center align-items-center " >
+      <div class="container-fluid form ">
         <form [formGroup]="signUpForm" (ngSubmit)="onSignUpSubmit()" class="top-bottom-form">
         <mat-form-field class="" >
           <mat-label>Enter your email</mat-label>
@@ -20,8 +25,7 @@
             <mat-error>{{errorMessageUser}}</mat-error>
           }
         </mat-form-field>
-    
-      
+
         <mat-form-field >
             <mat-label>Enter your password</mat-label>
             <input matInput [type]="hidePassword ? 'password' : 'text'"  formControlName="password" (blur)="updatePassErrorMessage()" required>
@@ -51,6 +55,7 @@
           <button type="submit"  class="bottom-signup-button" [disabled]="signUpForm.invalid"><mat-icon aria-hidden="false" aria-label="" fontIcon="person_add"></mat-icon>Sign Up</button>
           <button type="button" class="bottom-login-button" [routerLink]="['/']"><mat-icon aria-hidden="false" aria-label="" fontIcon="flight_takeoff"></mat-icon>Login</button>
         </form>
+      </div>
       </div>
 </body>
 </html>

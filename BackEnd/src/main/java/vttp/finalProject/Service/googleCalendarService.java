@@ -11,10 +11,12 @@ import java.util.Date;
 import java.util.HashSet;
 
 import java.awt.Desktop;
+import java.io.StringReader;
 import java.net.URI;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
@@ -44,6 +46,7 @@ import com.google.api.services.calendar.model.EventDateTime;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 import vttp.finalProject.Model.GPT.GPTRequest;
 import vttp.finalProject.Model.GPT.GPTResponse;
 
@@ -132,7 +135,7 @@ public class googleCalendarService {
 
     }
 
-    public void setCalendarEvent(String title, String StartDate, String EndDate)throws Exception
+    public boolean setCalendarEvent(String title, String StartDate, String EndDate)
     {
 
 
@@ -163,9 +166,20 @@ public class googleCalendarService {
         event.setStart(start);
         event.setEnd(end);
 
-  
-        client.events().insert("primary", event).execute();
-          
+        try {
+            Event addedEvent = client.events().insert("primary", event).execute();
+            JsonReader reader = Json.createReader(new StringReader(addedEvent.toString()));
+            JsonObject eventJsonObject= reader.readObject();
+            String eventID = eventJsonObject.getString("id");
+            System.out.printf("eventID:%S",eventID);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return false;
+        }
+        
+
+        return true;
 
     }
 

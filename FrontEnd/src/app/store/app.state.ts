@@ -12,9 +12,9 @@ import { googleSigningInState} from "../components/google-calendar/state/googleC
 import { gptReducer } from "../components/gpt/state/gpt.reducer";
 import { GPT_STATE_NAME } from "../components/gpt/state/gpt.selector";
 import { gptState } from "../components/gpt/state/gpt.state";
-import { itineraryListReducer } from "../components/itineries-list/state/itineriesList.reducer";
-import { ITINERIES_LIST_STATE_NAME } from "../components/itineries-list/state/itineriesList.selector";
-import { itineriesListState } from "../components/itineries-list/state/itineriesList.state";
+import { itineraryCalendarReducer, itineraryListReducer } from "../components/itineries-list/state/itineriesList.reducer";
+import { ITINERARY_ADD_CALENDAR_STATE_NAME, ITINERIES_LIST_STATE_NAME } from "../components/itineries-list/state/itineriesList.selector";
+import { itineraryAddCalendarState, itineriesListState } from "../components/itineries-list/state/itineriesList.state";
 import { countryFormReducer, countryReducer } from "../components/search-form/state/country.reducer";
 import { COUNTRY_FORM_STATE_NAME, COUNTRY_STATE_NAME } from "../components/search-form/state/country.selector";
 import { countryFormState, countryState } from "../components/search-form/state/country.state";
@@ -38,6 +38,7 @@ export interface AppState
     [VIEW_ITINERARY_STATE_NAME]:viewItineraryState
     [Authorization_STATE_NAME]:authorizationStatus
     [GOOGLE_SIGNING_IN_STATE_NAME]:googleSigningInState
+    [ITINERARY_ADD_CALENDAR_STATE_NAME]:itineraryAddCalendarState
 }
 
 export const appReducer = {
@@ -52,5 +53,6 @@ export const appReducer = {
     [ITINERIES_LIST_STATE_NAME]:itineraryListReducer,
     [VIEW_ITINERARY_STATE_NAME]:mongoItineraryReducer,
     [Authorization_STATE_NAME]:AuthorizationReducer,
-    [GOOGLE_SIGNING_IN_STATE_NAME]:googleSigningInReducer
+    [GOOGLE_SIGNING_IN_STATE_NAME]:googleSigningInReducer,
+    [ITINERARY_ADD_CALENDAR_STATE_NAME]:itineraryCalendarReducer
 }

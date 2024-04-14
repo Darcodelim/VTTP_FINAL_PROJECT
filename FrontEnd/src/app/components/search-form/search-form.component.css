@@ -1,16 +1,18 @@
 body{
 /* https://unsplash.com/photos/aerial-photography-of-mountain-under-clouds-during-golden-hour-VmRxRz0gD_s */
-  background-image: url(../search-form/images/frank-mckenna-OD9EOzfSOh0-unsplash.jpg);
-
+  /* background-image: url(../search-form/images/frank-mckenna-OD9EOzfSOh0-unsplash.jpg); */
+  background-image:linear-gradient(to bottom,#81beff,#E7F7EC) ;
+  background-size:cover;
   background-size:cover ;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-
-  overflow: hidden;
+  overflow-y: scroll;
   height: 100vh;
   margin: 0;
   padding: 0;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 .checkbox{
     position:relative;
@@ -27,6 +29,8 @@ body{
 }
 
 .form{
+    position: relative;
+    top:250px;
 
     display: flex;
     justify-content: center;
@@ -59,4 +63,7 @@ body{
     position: relative;
     top:200px;
     left:0px;
+    text-align: center;
+
 }
+

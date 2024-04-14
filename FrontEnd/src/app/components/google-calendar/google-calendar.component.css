@@ -5,7 +5,9 @@
 
 body{
     /* https://unsplash.com/photos/blue-sea-under-blue-sky-during-daytime-MJx-_TcNnSE */
-    background-image: url("/assets/images/priscilla_philip.jpg");
+    /* background-image: url("/assets/images/priscilla_philip.jpg"); */
+
+    background-image:linear-gradient(to bottom,#81beff,#E7F7EC) ;
 
     background-size: cover;
     background-position: center;
@@ -88,6 +90,21 @@ body{
     outline-color: transparent;
     outline-style: solid;
     box-shadow:0 0 10px #007bff;
+}
+
+.eventSuccessFail
+{   position: relative;
+    left: 22px;
+    height:10px;
+    width:500px;
+    margin-top:10px;
+    margin-bottom:0px;
+
+    text-align: center;
+}
+.text{
+    position:relative;
+    bottom:10px;
 }
 
 .form{

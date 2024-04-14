@@ -5,7 +5,21 @@ export interface itineriesListState{
 
 }
 
+export interface itineraryAddCalendarState{
+    title:string
+    startDate:string
+    endDate:string
+
+}
+
 export const initialItineriesListState:itineriesListState =
 {
     itineries:null
+}
+
+export const initialItineraryAddCalendarState:itineraryAddCalendarState =
+{
+    title:"",
+    startDate:"",
+    endDate:""
 }

@@ -4,21 +4,22 @@ import { AppState } from '../../store/app.state';
 import { Observable, Subscription } from 'rxjs';
 import { LoginState } from '../Authentication/state/auth.state';
 import { isLoginRegistered } from '../Authentication/state/auth.selector';
-import { deleteItinerary, retrieveItineriesList } from './state/itineriesList.action';
-import { getItineriesList } from './state/itineriesList.selector';
+import { addItineraryCalendar, deleteItinerary, retrieveItineriesList } from './state/itineriesList.action';
+import { getItineraryAddCalendar, getItineriesList } from './state/itineriesList.selector';
 import { itineraryInfo } from '../../Models/ItineraryInfoModel';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { getMongoResponseAction } from '../view-itinerary/state/viewItinerary.action';
 import { setLoadingSpinner } from '../shared/state/shared.action';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-itineries-list',
   templateUrl: './itineries-list.component.html',
   styleUrl: './itineries-list.component.css'
 })
-export class ItineriesListComponent implements OnDestroy {
+export class ItineriesListComponent implements OnDestroy,AfterViewInit {
 
   //LOGINState
   loginState$!:Observable<LoginState>
@@ -27,13 +28,14 @@ export class ItineriesListComponent implements OnDestroy {
 
   //ItineriesList
   itineriesList$!:Observable<itineraryInfo[]|null>
+  itineriesListSub!:Subscription
   displayedColumns!:string[]
 
-  @ViewChild(MatSort) sort!: MatSort;
+
   listData!:MatTableDataSource<any>
   
 
-  constructor(private store:Store<AppState>, private _liveAnnouncer:LiveAnnouncer)
+  constructor(private store:Store<AppState>, private _liveAnnouncer:LiveAnnouncer, private router:Router)
   {
     this.loginState$=this.store.select(isLoginRegistered)
     this.loginStateSub = this.loginState$.subscribe((loginState)=>{
@@ -43,38 +45,25 @@ export class ItineriesListComponent implements OnDestroy {
       }
       });
 
-    this.store.dispatch(retrieveItineriesList({email:this.username}))
-    this.store.select(getItineriesList).subscribe(list=>{
-
-      if(list)
-      {
-        this.listData = new MatTableDataSource(list);
-        this.listData.sort = this.sort;
-      }
-    })
-    
-    
-
-
     this.displayedColumns = ['No.','ItineraryTitle', 'startDate', 'endDate','dateCreated','action'];
 
 }
+  ngAfterViewInit(): void {
+    this.store.dispatch(retrieveItineriesList({email:this.username}))
+    this.itineriesListSub = this.store.select(getItineriesList).subscribe(list=>{
+
+      if(list)
+      { 
+        this.listData = new MatTableDataSource(list);
+      }
+    })
+  }
   ngOnDestroy(): void {
     this.loginStateSub.unsubscribe();
+    this.itineriesListSub.unsubscribe();
   }
 
-announceSortChange(sortState: Sort) {
-  // This example uses English messages. If your application supports
-  // multiple language, you would internationalize these strings.
-  // Furthermore, you can customize the message to add additional
-  // details about the values being sorted.
-  if (sortState.direction) {
-    console.log("sorted ending");
-    this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-  } else {
-    this._liveAnnouncer.announce('Sorting cleared');
-  }
-}
+
 
   delete(ID:string)
 { 
@@ -88,6 +77,17 @@ titleClick(title:string,itineraryID:string)
   this.store.dispatch(setLoadingSpinner({status:true}))
   this.store.dispatch(getMongoResponseAction({title:title,itineraryID:itineraryID}))
 
+}
+
+addToCalendar(title:string,startDate:string,endDate:string)
+{
+  // console.log(title,startDate,endDate);
+  this.store.dispatch(addItineraryCalendar({itineraryTitle:title,startDate:startDate,endDate:endDate}));
+  // this.store.select(getItineraryAddCalendar).subscribe((calendarForm)=>{
+  //   console.log(calendarForm);
+  // })
+  this.router.navigate(['/calendar']);
+  
 }
 
 
