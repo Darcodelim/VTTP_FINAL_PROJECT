@@ -1,20 +1,20 @@
-#Creating environment for angular
-FROM node:21 AS ng-builder
-WORKDIR /ngapp 
+# #Creating environment for angular
+# FROM node:21 AS ng-builder
+# WORKDIR /ngapp 
 
-#Install Angular
-RUN npm i -g @angular/cli
+# #Install Angular
+# RUN npm i -g @angular/cli
 
-COPY frontend/package*.json .
-# COPY frontend/package-lock.json .
-COPY frontend/ngsw-config.json .
-COPY frontend/angular.json .
-COPY frontend/tsconfig.* .
-COPY frontend/src src
+# COPY frontend/package*.json .
+# # COPY frontend/package-lock.json .
+# COPY frontend/ngsw-config.json .
+# COPY frontend/angular.json .
+# COPY frontend/tsconfig.* .
+# COPY frontend/src src
 
-#Installing node_modules from looking at package-lock.json, else "npm i" would install all the modules based on package.json which is the latest package which we do not wish to have that as it changes everytime
-#ng build would only run if npm ci ran
-RUN npm ci && ng build
+# #Installing node_modules from looking at package-lock.json, else "npm i" would install all the modules based on package.json which is the latest package which we do not wish to have that as it changes everytime
+# #ng build would only run if npm ci ran
+# RUN npm ci && ng build
 
 # /ngapp/dist/frontend/browser/*
 #Starting with this linux server
@@ -35,7 +35,7 @@ COPY backend/pom.xml .
 COPY backend/.mvn .mvn
 COPY backend/src src
 # the output location was changed during building:/ngapp/dist/front-end
-COPY --from=ng-builder /ngapp/dist/frontend/browser/  /sbapp/src/main/resources/static
+# COPY --from=ng-builder /ngapp/dist/frontend/browser/  /sbapp/src/main/resources/static
 #Build the application
 RUN mvn package -Dmaven.test.skip=true
 

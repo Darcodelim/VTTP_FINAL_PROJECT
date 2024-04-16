@@ -21,13 +21,14 @@
                         <div *ngIf="Response.Activities.length>0">
 
                             <div class="row title">
-                                <div class="col-6 ">Start Date: <span>{{Response.Start_Date}}</span></div>
-                                <div class="col-6 ">End Date: <span>{{Response.End_Date}}</span></div>
+                                <div class="col-4 ">Start Date: <span>{{Response.Start_Date}}</span></div>
+                                <div class="col-4 ">End Date: <span>{{Response.End_Date}}</span></div>
                             </div>
 
                             <div class="row title">
-                                    <div class="col-6 ">Country: <span>{{Response.Country}}</span></div>
-                                    <div class="col-6 ">Region: <span>{{Response.Region}}</span></div>
+                                    <div class="col-4 ">Country: <span>{{Response.Country}}</span></div>
+                                    <div class="col-4 ">Region: <span>{{Response.Region}}</span></div>
+                                    <div class="col-4" *ngIf="Response.Municipal">City/Municipal: <span>{{Response.Municipal}}</span></div>
                             </div>
 
                             <div class="row justify-content-center">
@@ -40,13 +41,12 @@
                                                 <div class="row h-100 ">
                                                     <div class="col  order-xl-last ">
                                                         <div class="">
-                                                            <div class="location"> {{a.Location}}</div>
+                                                            <div class="location" (click)="locationSearch(a.Location,Response.Country,Response.Region)"><span>{{a.Location}}</span ><span class="locationSearch">Google Search</span> </div>
                                                             <div class="container highlights-box ">
                                                                 <div class="highlights">
                                                                     <div class="highlights-word ">Highlights:</div>
                                                                     <div class="highlights-group container.m0  justify-content-center "><div class="highlights-list " *ngFor="let h of a.Highlights">{{h}}</div></div>
                                                                 </div>
-                                                                
                                                             </div>
                                                         </div>
                                                     </div>
@@ -57,11 +57,17 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                
+
                                             <div class="col col-lg-5  order-md-2 d-flex justify-content-end ">
                                                 <!-- for image -->
-                                                <div *ngIf="a.Image">
-                                                    <img  class="Image" [src]="a.Image">
+                                                <div class=ImageContainer *ngIf="a.Image">
+
+                                                       <div class=ImageContainer><img  class="Image" [src]="a.Image" >
+                                                        <span class="overlay" (click)="openPicture(a.Image)"><span class="text">Click to Enlarge Picture</span></span>
+                                                    </div>
+                                    
+
+
                                                 </div>
 
                                                 <div *ngIf="!a.Image">
@@ -69,7 +75,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    
                                 </div>
                             </div>
                         </div>

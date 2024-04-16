@@ -27,7 +27,11 @@ export class GptEffects{
 
                             return storeGptResponse({response:gptResponse})
 
-                        }),catchError(()=> of(ReponseError())
+                        }),catchError((err)=> {
+                            this.store.dispatch(setLoadingSpinner({status:false}))
+                            return of(ReponseError({error:true}))
+
+                            }
                         
                         )
                     )

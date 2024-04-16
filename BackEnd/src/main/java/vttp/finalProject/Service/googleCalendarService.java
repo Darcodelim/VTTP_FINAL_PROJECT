@@ -67,6 +67,8 @@ public class googleCalendarService {
     @Value("${Base.URL}")
     private String baseURL;
 
+    String Code;
+
     RestTemplate restTemplate = new RestTemplate();
 
     private final static Log logger = LogFactory.getLog(googleCalendarService.class);
@@ -101,15 +103,33 @@ public class googleCalendarService {
 		return authorizationUrl.build();
 	}
 
+    public void setCode(String setCode){
+
+        Code = setCode;
+    }
+
+    public String getCode()
+    {
+        return Code;
+    }
 
     public boolean getToken(String code,String username){
 
+        //Currently there is a bad request problem but i have gotten the access_token:
+//         Unable to retrieve token successfully (400 Bad Request
+// {
+//   "error" : "invalid_grant",
+//   "error_description" : "Bad Request"
+// }).
 
+
+        // System.out.printf("code in get Token:%s\n",code);
         System.out.printf("Username:%s",username);
     try {
         TokenResponse response = flow.newTokenRequest(code).setRedirectUri(redirectURI).execute();
         
-        System.out.println(response);
+        System.out.printf("TokenResponse:",response);
+        //Eg. TokenResponse:client:com.google.api.services.calendar.Calendar@3f23a656true
         //The userID can be stated by you, maybe use the email username as the ID
         credential = flow.createAndStoreCredential(response,username);
         
@@ -218,6 +238,7 @@ public class googleCalendarService {
 
         if (revokeEntity.getStatusCode() ==HttpStatus.OK)
         {    credential = null;
+            Code=null;
             return true;
            
         }

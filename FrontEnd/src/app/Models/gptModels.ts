@@ -2,6 +2,7 @@ export interface GPTResponse{
 
     Country:string
     Region:string
+    Municipal:string|null
     Duration:string
     Start_Date:string
     End_Date:string

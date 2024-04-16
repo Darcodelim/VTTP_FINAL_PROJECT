@@ -5,7 +5,7 @@ import { EMPTY, Observable, Subscription, mergeMap, of, take, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 import { addItinerary, clearGptResponse, sendPrompt } from './state/gpt.action';
-import { getGptResponse } from './state/gpt.selector';
+import { getGptReponseError, getGptResponse } from './state/gpt.selector';
 import { formCountry } from '../../Models/countryModels';
 import { getFormData } from '../search-form/state/country.selector';
 import { setLoadingSpinner } from '../shared/state/shared.action';
@@ -17,6 +17,8 @@ import { DialogNoTitleComponent } from '../dialog-no-title/dialog-no-title.compo
 import { LoginState } from '../Authentication/state/auth.state';
 import { isLoginRegistered } from '../Authentication/state/auth.selector';
 import { clearTitle } from '../dialog-title-form/state/dialog.action';
+import { DialogPhotoComponent } from '../dialog-photo/dialog-photo.component';
+import { DialogGptResponseErrorComponent } from '../dialog-gpt-response-error/dialog-gpt-response-error.component';
 
 @Component({
   selector: 'app-gpt',
@@ -32,6 +34,7 @@ export class GPTComponent implements OnInit,OnDestroy {
   countryForm$!:Observable<formCountry|null>
   title$!:Observable<string|null>
   loginState$!:Observable<LoginState>
+  responseErrorState$!:Observable<boolean>
   
   //Loading spinner
   showLoading$!:Observable<boolean>;
@@ -40,6 +43,7 @@ export class GPTComponent implements OnInit,OnDestroy {
   countryFormSub!:Subscription
   titleSub!:Subscription
   loginStateSub!:Subscription
+  responseErrorSub!:Subscription
 
   prompts!:string ;
 
@@ -117,10 +121,23 @@ export class GPTComponent implements OnInit,OnDestroy {
           console.log(this.prompts)
           }
           
+          
     
       })
-        
-        
+
+      this.responseErrorState$ = this.store.select(getGptReponseError)
+      this.responseErrorSub = this.responseErrorState$.subscribe((errorStatus)=>{
+        if(errorStatus)
+          {
+              this.dialog.open(DialogGptResponseErrorComponent
+              ,{
+                width:'500px'
+                });
+          }
+      }
+    
+    )
+      
       
 
   }
@@ -132,6 +149,7 @@ export class GPTComponent implements OnInit,OnDestroy {
     this.countryFormSub.unsubscribe();
     this.titleSub.unsubscribe();
     this.loginStateSub.unsubscribe();
+    this.responseErrorSub.unsubscribe();
 
   }
 
@@ -229,6 +247,24 @@ export class GPTComponent implements OnInit,OnDestroy {
 
       }
     }
+
+    openPicture(link:string)
+    {
+
+
+      this.dialog.open(DialogPhotoComponent,{
+        width:'660px',
+        data:{link}
+      });
+
+    }
+
+    locationSearch(location:string,country:string,region:string)
+    {
+       window.open("https://www.google.com/search?q="+country+", "+region+", "+ location, '_blank');
+    }
+
+
   }
 
 

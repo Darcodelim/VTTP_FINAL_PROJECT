@@ -16,7 +16,7 @@ export const itineraryAdd ='Add Itinerary'
 export const sendPrompt= createAction(SEND_PROMPT,props<{prompt:string}>())
 //I want to store the gptReponse with this action
 export const storeGptResponse= createAction(gptReponseSuccess,props<{response:GPTResponse}>())
-export const ReponseError=createAction(gptReponseError)
+export const ReponseError=createAction(gptReponseError,props<{error:boolean}>())
 export const clearGptResponse = createAction(CLEAR_GPT_RESPONSE);
 
 //Itinerary

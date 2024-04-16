@@ -12,7 +12,7 @@ import { updateGoogleSigningInStatus } from '../../google-calendar/state/googleC
 export class LoadingSpinnerGoogleSignInComponent implements OnDestroy {
 
   countdownOb$!:Observable<number>
-  countdownSeconds:number = 25;
+  countdownSeconds:number = 60;
   countdownSubscription!:Subscription;
 
   // signInStatus:boolean =false;

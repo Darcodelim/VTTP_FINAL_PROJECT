@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { GPTResponse } from '../../Models/gptModels';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { LoginState } from '../Authentication/state/auth.state';
 import { AppState } from '../../store/app.state';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,6 +15,7 @@ import { DialogNoTitleComponent } from '../dialog-no-title/dialog-no-title.compo
 import { getItineraryID, getMongoResponse } from './state/viewItinerary.selector';
 import { clearMongoResponse, editItineraryTitle } from './state/viewItinerary.action';
 import { ItineraryService } from '../../Services/itinerary.service';
+import { DialogPhotoComponent } from '../dialog-photo/dialog-photo.component';
 
 @Component({
   selector: 'app-view-itinerary',
@@ -56,6 +57,7 @@ export class ViewItineraryComponent {
   itineraryID!:string
   mongoResponse!:GPTResponse
   
+
 
   constructor(private store:Store<AppState>,public dialog: MatDialog)
   {
@@ -105,7 +107,7 @@ export class ViewItineraryComponent {
     //Must unsubscribe here as well, if not the memory would lead to multiple emissions during navigation in other components
     this.titleSub.unsubscribe();
     this.loginStateSub.unsubscribe();
-
+    this.idSub.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -142,6 +144,23 @@ export class ViewItineraryComponent {
         this.store.dispatch(editItineraryTitle({itineraryID:this.itineraryID,title:this.Title}));
       
       }
+    }
+
+    openPicture(link:string)
+    {
+
+
+      this.dialog.open(DialogPhotoComponent,{
+        width:'660px',
+        data:{link}
+      });
+
+    }
+
+
+    locationSearch(location:string,country:string,region:string)
+    {
+       window.open("https://www.google.com/search?q="+country+", "+region+", "+ location, '_blank');
     }
 
 }

@@ -144,6 +144,7 @@ export class GoogleCalendarComponent implements OnInit,OnDestroy{
     }
 
     this.itineraryAddCalendarSub.unsubscribe();
+    this.googleSigningInSub.unsubscribe();
   }
 
     redirectToGoogleSignIn() {
@@ -156,7 +157,7 @@ export class GoogleCalendarComponent implements OnInit,OnDestroy{
 
         //need to set a signing in loading page for 25 seconds.
 
-        this.authorizationStatusSub = interval(5000).pipe( takeWhile(()=>!this.verify),take(5)).subscribe(()=>
+        this.authorizationStatusSub = interval(5000).pipe( takeWhile(()=>!this.verify),take(12)).subscribe(()=>
    
         this.googleCalSvc.verifyAuthorization(this.username).subscribe({
 

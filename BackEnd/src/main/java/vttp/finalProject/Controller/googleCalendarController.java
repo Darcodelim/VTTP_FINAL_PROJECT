@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import vttp.finalProject.Service.googleCalendarService;
 
 @Controller
-@ResponseBody
+
 @CrossOrigin
 @RequestMapping("/api")
 public class googleCalendarController {
@@ -37,42 +38,38 @@ public class googleCalendarController {
     String Code;
 
     @GetMapping(value = "/oauth2/authorize")
+    @ResponseBody
 	public ResponseEntity<String> googleConnectionStatus() throws Exception {
 
             String authorizationURLSvc = gcSvc.authorize();
 
             JsonObject authorizationURL = Json.createObjectBuilder().add("authorizationURL" ,authorizationURLSvc).build();
-        
+
             // return new RedirectView(gcSvc.authorize());
             System.out.println(authorizationURLSvc);
              return ResponseEntity.ok(authorizationURL.toString());
 
         }
     
-    // @GetMapping(value = "/oauth2/authorize")
-	// public RedirectView googleConnectionStatus() throws Exception {
 
-    //         JsonObject authorizationURL = Json.createObjectBuilder().add("authorizationURL" ,gcSvc.authorize()).build();
-        
-    //         return new RedirectView(gcSvc.authorize());
-
-         
-
-    //     }
-
-    //Getting Authorization Code from the redirectURI
-	@GetMapping(value = "/oauth2/callback/google")
+        //Getting Authorization Code from the redirectURI ///// (14/4/24) IF AFTER PUTTING THE URL TO ANOTHER CONTROLLER DOESNT WORK FOR RAILWAY, TRY TO PUT THIS ENTIRE ENDPOINT TO A NON-RESTCONTROLLER
+	@GetMapping(value = "/callback")
 	public RedirectView oauth2Callback(@RequestParam Map<String,String> param) {
 
     /*Sample of the returned response: http://localhost:8080/oauth2/callback/google?code=4/0AeaYSHCKrCmvAkSB9oZ-NrwntnLX4DFF4VmL55JO8uJ9EcnAiqulPKbYFdioB7ANPi3-nQ
         &scope=https://www.googleapis.com/auth/calendar.events%20https://www.googleapis.com/auth/calendar*/
         
-        Code = param.get("code");
+        String Code = param.get("code");
         System.out.println(Code);
         String error =  param.get("\n error");
-        
+
+
+
+
         if(!Code.isBlank())
-        {   String passURL = gcSvc.getVerifyPassUrl();
+        {   System.out.printf("within the if statement: %s",Code);
+            gcSvc.setCode(Code);
+            String passURL = gcSvc.getVerifyPassUrl();
            return new RedirectView(passURL);
         }
 
@@ -82,12 +79,13 @@ public class googleCalendarController {
         }
 
 
-		// System.out.println("cal message:" + message);
-		// return  ResponseEntity.ok().body("authorized");
 	}
 
+
+
     
-        @GetMapping("/insertCalendarEvent")
+    @GetMapping("/insertCalendarEvent")
+    @ResponseBody
         public ResponseEntity<String> insertCalendar(@RequestParam Map<String,String> param)
         {
             // String username = param.get("username");
@@ -117,31 +115,32 @@ public class googleCalendarController {
 
         }
 
-    @GetMapping(value = "/oauth2/verifyFail")
-    public ResponseEntity<String> verifyFail()
-    {
-        return ResponseEntity.ok().body("Fail Authentication, you may close this window and re-login");
-    }
-
-    @GetMapping(value = "/oauth2/verifyPass")
-    public ResponseEntity<String> verifyPass()
-    {
-        return ResponseEntity.ok().body("Authentication Pass, you may close this window");
-    }
+        @GetMapping(value = "/oauth2/verifyFail")
+        public String verifyFail()
+        {
+            return "verifyFail";
+        }
+    
+        @GetMapping(value = "/oauth2/verifyPass")
+        public String verifyPass()
+        {
+            return "verifyPass";
+        }
 
 
     @GetMapping(value = "/oauth2/verify")
+    @ResponseBody
 	public ResponseEntity<String> oauth2Callback(@RequestParam("username") String username) {
 
     /*Sample of the returned response: http://localhost:8080/oauth2/callback/google?code=4/0AeaYSHCKrCmvAkSB9oZ-NrwntnLX4DFF4VmL55JO8uJ9EcnAiqulPKbYFdioB7ANPi3-nQ
         &scope=https://www.googleapis.com/auth/calendar.events%20https://www.googleapis.com/auth/calendar*/
-        
-   
-        if(Code != null)
+       String googleCode =  gcSvc.getCode();
+
+        if(googleCode != null)
         {
             JsonObject authorizationStatus= Json.createObjectBuilder().add("authorizationStatus" ,true).build();
 
-            Boolean tokenStatus = gcSvc.getToken(Code, username);
+            Boolean tokenStatus = gcSvc.getToken(googleCode, username);
             System.out.println(tokenStatus);
 
             return ResponseEntity.ok().body(authorizationStatus.toString());
@@ -157,7 +156,9 @@ public class googleCalendarController {
 		// return  ResponseEntity.ok().body("authorized");
 	}
 
+
     @GetMapping("/oauth2/revokeToken")
+    @ResponseBody
     public ResponseEntity<String> revokeToken()
     {
        boolean revokeStatus= gcSvc.revokeAccessToken();
@@ -177,8 +178,5 @@ public class googleCalendarController {
 
        }
     }
-
-
-
     
 }

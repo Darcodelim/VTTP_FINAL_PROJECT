@@ -42,6 +42,8 @@ export class SearchFormComponent implements OnDestroy {
 
    //CheckBox
    includeCityMunicipal:boolean = false;
+   isCityMunicipalSameAsRegionVariable:boolean = false;
+   checkboxStatus:boolean = false;
 
    //Min Date, prevents user to pick past dates
    minDate!:Date;
@@ -59,6 +61,7 @@ export class SearchFormComponent implements OnDestroy {
       //setMinDate
       this.setMinDate()
 
+      // this.isCityMunicipalSameAsRegion();
 
 
     }
@@ -193,6 +196,18 @@ export class SearchFormComponent implements OnDestroy {
         
             this.selectedCity = cities
             this.filteredCity = cities
+
+            //Checking 
+            this.isCityMunicipalSameAsRegionVariable = this.isCityMunicipalSameAsRegion(this.region,cities)
+
+            if(this.isCityMunicipalSameAsRegionVariable)
+              { 
+                this.includeCityMunicipal=false
+                this.resetMunicipalValidators();
+              }
+
+            
+
         
       })
 
@@ -202,6 +217,20 @@ export class SearchFormComponent implements OnDestroy {
         })
       
       })
+    }
+
+    resetMunicipalValidators(){
+
+      const municipalControl = this.formGroup.get('municipal')
+
+   
+      
+        municipalControl?.setValue('');
+        municipalControl?.clearValidators()
+      
+
+      municipalControl?.updateValueAndValidity();
+      
     }
 
     toggleCityMunicipal(checked:boolean)
@@ -252,6 +281,11 @@ export class SearchFormComponent implements OnDestroy {
         {
           return City.toLowerCase().indexOf(city.toLowerCase())>-1
         })
+    }
+
+    isCityMunicipalSameAsRegion(region:String,cities:string[]):boolean{
+      return cities.length === 1 && region === cities[0]
+     
     }
 
     loadDataIfDoesntExists()

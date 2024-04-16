@@ -71,12 +71,13 @@
                     </mat-form-field>
                     </div>
                     
-                    <div class="row">
-                    <mat-form-field *ngIf="includeCityMunicipal">
+                    <div class="row" *ngIf="!this.isCityMunicipalSameAsRegionVariable">
+                  
+                    <mat-form-field *ngIf="includeCityMunicipal" >
                         <mat-label>
                             City/Municipal
                         </mat-label>
-                        <input formControlName="municipal" matInput type="text" [matAutocomplete]="autoCity">
+                        <input formControlName="municipal" matInput type="text" [matAutocomplete]="autoCity" >
                         <mat-autocomplete #autoCity="matAutocomplete">
                             <mat-option *ngFor="let city of filteredCity" [value]="city">
                             {{city}}
@@ -85,10 +86,12 @@
                         <mat-error *ngIf="formGroup.get('municipal')?.hasError('required') ">City/Municipal is required</mat-error>
                     </mat-form-field>
                         </div>
-        
+                    <div class="row " *ngIf="this.isCityMunicipalSameAsRegionVariable">
+                        <span class="text">The region is the city/municipal as well</span>
+                    </div>
 
-                    <section class="checkbox">
-                        <mat-checkbox class="example-margin" [color]="'primary'" (change)="toggleCityMunicipal($event.checked)">Include City/Municipal</mat-checkbox>
+                    <section class="checkbox" *ngIf="!this.isCityMunicipalSameAsRegionVariable">
+                        <mat-checkbox class="example-margin" [color]="'primary'" (change)="toggleCityMunicipal($event.checked)" [checked]="includeCityMunicipal">Include City/Municipal</mat-checkbox>
                     </section>
                     <div class="row">
                     <button type="submit" class="submit btn btn-dark" [disabled]="formGroup.invalid" >Create Itinerary</button>

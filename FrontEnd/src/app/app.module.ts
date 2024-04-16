@@ -34,6 +34,8 @@ import { GoogleCalendarComponent } from './components/google-calendar/google-cal
 import { googleAuthEffects } from './components/google-calendar/state/googleCalendar.effects';
 import { LoadingSpinnerGoogleSignInComponent } from './components/shared/loading-spinner-google-sign-in/loading-spinner-google-sign-in.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { DialogPhotoComponent } from './components/dialog-photo/dialog-photo.component';
+import { DialogGptResponseErrorComponent } from './components/dialog-gpt-response-error/dialog-gpt-response-error.component';
 
 
 
@@ -52,7 +54,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ItineriesListComponent,
     ViewItineraryComponent,
     GoogleCalendarComponent,
-    LoadingSpinnerGoogleSignInComponent
+    LoadingSpinnerGoogleSignInComponent,
+    DialogPhotoComponent,
+    DialogGptResponseErrorComponent
 
   ],
   imports: [

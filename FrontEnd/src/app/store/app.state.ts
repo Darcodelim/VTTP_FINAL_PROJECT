@@ -9,9 +9,9 @@ import { dialogTitleState } from "../components/dialog-title-form/state/dialog.s
 import { AuthorizationReducer, googleSigningInReducer } from "../components/google-calendar/state/googleCalendar.reducer";
 import { Authorization_STATE_NAME,GOOGLE_SIGNING_IN_STATE_NAME } from "../components/google-calendar/state/googleCalendar.selector";
 import { googleSigningInState} from "../components/google-calendar/state/googleCalender.state";
-import { gptReducer } from "../components/gpt/state/gpt.reducer";
-import { GPT_STATE_NAME } from "../components/gpt/state/gpt.selector";
-import { gptState } from "../components/gpt/state/gpt.state";
+import { gptReducer, gptResponseErrorReducer } from "../components/gpt/state/gpt.reducer";
+import { GPT_RESPONSE_ERROR_STATE_NAME, GPT_STATE_NAME } from "../components/gpt/state/gpt.selector";
+import { gptState, responseErrorState } from "../components/gpt/state/gpt.state";
 import { itineraryCalendarReducer, itineraryListReducer } from "../components/itineries-list/state/itineriesList.reducer";
 import { ITINERARY_ADD_CALENDAR_STATE_NAME, ITINERIES_LIST_STATE_NAME } from "../components/itineries-list/state/itineriesList.selector";
 import { itineraryAddCalendarState, itineriesListState } from "../components/itineries-list/state/itineriesList.state";
@@ -39,6 +39,7 @@ export interface AppState
     [Authorization_STATE_NAME]:authorizationStatus
     [GOOGLE_SIGNING_IN_STATE_NAME]:googleSigningInState
     [ITINERARY_ADD_CALENDAR_STATE_NAME]:itineraryAddCalendarState
+    [GPT_RESPONSE_ERROR_STATE_NAME]:responseErrorState
 }
 
 export const appReducer = {
@@ -54,5 +55,6 @@ export const appReducer = {
     [VIEW_ITINERARY_STATE_NAME]:mongoItineraryReducer,
     [Authorization_STATE_NAME]:AuthorizationReducer,
     [GOOGLE_SIGNING_IN_STATE_NAME]:googleSigningInReducer,
-    [ITINERARY_ADD_CALENDAR_STATE_NAME]:itineraryCalendarReducer
+    [ITINERARY_ADD_CALENDAR_STATE_NAME]:itineraryCalendarReducer,
+    [GPT_RESPONSE_ERROR_STATE_NAME]:gptResponseErrorReducer
 }

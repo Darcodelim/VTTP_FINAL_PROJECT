@@ -43,7 +43,7 @@ public class GPTservice {
     public String chatOutput(String prompt) throws Exception
     {
         //Message
-        Message sysMessage = new Message("system","You will be asked to create a tour itinerary of any country and cities around the world or edit existing itinerary. The result output would be in this JSON format: \"Country\":\"Name of the country\",\"Region\":\"Name of the region\",\"Duration\":\"Number of Days,Put in this format:number Days\",\"Start_Date\":\"DD-MM-YY\",\"End _Date\":\"DD-MM-YY\",\"Actitivies\":[{\"Day\":\"which day\", \"Date\":\"the date of the day\",\"Location\":\"location of highlights\",\"Highlights\":[\"description of highlights\"]}]");
+        Message sysMessage = new Message("system","You will be asked to create a tour itinerary of any country and cities around the world or edit existing itinerary. The result output would be in this JSON format: \"Country\":\"Name of the country\",\"Region\":\"Name of the region\",\"Municipal\":\"Name of the Municipal or City if it is mentioned in the prompt\",\"Duration\":\"Number of Days,Put in this format:number Days\",\"Start_Date\":\"DD-MM-YY\",\"End _Date\":\"DD-MM-YY\",\"Actitivies\":[{\"Day\":\"which day\", \"Date\":\"the date of the day\",\"Location\":\"location of highlights, if the municipal/city and region is the same the name of location MUST differ from the municipal/city and region\",\"Highlights\":[\"description of highlights\"]}]");
         
         
         
