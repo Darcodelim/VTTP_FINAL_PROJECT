@@ -34,5 +34,4 @@ build/
 
 
 ###bat file###
-!.EnvironmentVariables.bat
-!.EnvironmentVariables.txt
+EnvironmentVariables.bat
